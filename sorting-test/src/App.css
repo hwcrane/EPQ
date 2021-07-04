@@ -1,0 +1,14 @@
+.arrContainer {
+    width: 80vw;
+    margin: auto;
+    height: 30rem;
+    display: flex;
+    align-items: center;
+    background: gray;
+}
+.bar {
+    position: absolute;
+    width: 2rem;
+    background: wheat;
+    transition: transform 250ms;
+}
