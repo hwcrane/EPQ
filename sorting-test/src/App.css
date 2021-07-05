@@ -3,12 +3,12 @@
     margin: auto;
     height: 30rem;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     background: gray;
 }
 .bar {
     position: absolute;
-    width: 2rem;
+
     background: wheat;
-    transition: transform 250ms;
+    transition: transform 5s linear 0s;
 }
