@@ -32,7 +32,7 @@ artefact/src
 `App.css` is empty and will be where all the component's CSS will go
 `App.tsx` is the typescript file where the react components will go. Currently, it contains:
 
-```typescript
+```tsx
 import React from "react";
 import "./App.css";
 
@@ -65,7 +65,7 @@ code {
 
 `index.tsx` contains code that injects the empty app element created in `App.tsx`:
 
-```typescript
+```tsx
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
@@ -92,7 +92,7 @@ The sorting algorithm page will contain these elements:
 
 So to start off with, I need to create these components inside `App.tsx`. I have not decided on a final visual design for the application, so I will not style the components any more than required to get them working. Then, once I have decided on how the application will look, I will add the CSS to style the components. The file `App.css` now looks like this:
 
-```typescript
+```tsx
 import React from "react";
 import "./App.css";
 

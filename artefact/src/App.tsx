@@ -10,11 +10,12 @@ interface barInfo {
     maxSize: number;
 }
 
-// React element for the bar
+// React element for the bars
 const Bar = (props: barInfo) => {
     // CSS styles for bar
     var style: CSSProperties = {
-        height: props.size.toString() + "%",
+        height: ((props.size / props.maxSize) * 100).toString() + "%",
+        width: ((1 / props.numOBars) * 100).toString() + "%",
     };
     return <div className="bar" style={style}></div>;
 };
@@ -23,7 +24,8 @@ const Bar = (props: barInfo) => {
 const BarContainer = () => {
     return (
         <div className="barContainer">
-            <Bar numOBars={2} maxSize={5} size={20} position={0} />
+            <Bar numOBars={2} maxSize={20} size={5} position={0} />
+            <Bar numOBars={2} maxSize={20} size={10} position={0} />
         </div>
     );
 };
