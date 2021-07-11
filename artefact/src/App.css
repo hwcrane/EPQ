@@ -3,4 +3,11 @@
     height: 20rem;
     background: black;
     margin: auto;
+    display: flex;
+    align-items: flex-end;
+}
+
+.bar {
+    background: gray;
+    position: absolute;
 }

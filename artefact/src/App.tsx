@@ -1,9 +1,34 @@
 import React from "react";
+import { CSSProperties } from "react";
 import "./App.css";
 
-const BarContainer = () => {
-    return <div className="barContainer"></div>;
+interface barInfo {
+    size: number;
+    position: number;
+    numOBars: number;
+    maxSize: number;
+}
+
+const Bar = (props: barInfo) => {
+    var style: CSSProperties = {
+        width: ((1 / props.numOBars) * 75).toString() + "vw",
+        height: props.size.toString() + "%",
+        transform:
+            "translateX(" +
+            ((props.position / props.size) * 80).toString() +
+            "vw)",
+    };
+    return <div className="bar" style={style}></div>;
 };
+
+const BarContainer = () => {
+    return (
+        <div className="barContainer">
+            <Bar numOBars={2} maxSize={5} size={20} position={0} />
+        </div>
+    );
+};
+
 const Controlls = () => {
     return (
         <div className="controlls">
