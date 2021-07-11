@@ -96,39 +96,43 @@ So to start off with, I need to create these components inside `App.tsx`. I have
 import React from "react";
 import "./App.css";
 
+// React element for the bar container
 const BarContainer = () => {
     return <div className="barContainer"></div>;
 };
+
+// React element for the Controlls
 const Controlls = () => {
     return (
         <div className="controlls">
-            <select className="algorithmSelect" />
-            <button className="startstop" />
-            <button className="reset" />
+            <select className="algorithmSelect"></select>
+            <button className="startstop"></button>
+            <button className="reset"></button>
+            <input type="range" />
+            <input type="range" />
         </div>
     );
 };
+
+// React element for the Metrics
 const Metrics = () => {
     return (
         <div className="metrics">
-            <Time />
-            <Comparisons />
-            <Swaps />
+            <span>Time: </span>
+            <br />
+            <span>Comparisons: </span>
+            <br />
+            <span>Swaps: </span>
         </div>
     );
 };
-const Time = () => {
-    return <span>Time: </span>;
-};
-const Comparisons = () => {
-    return <span>Comparisons: </span>;
-};
-const Swaps = () => {
-    return <span>Swaps: </span>;
-};
+
+// react element for the Description
 const Description = () => {
     return <div className="description"></div>;
 };
+
+// Base app
 function App() {
     return (
         <div className="App">

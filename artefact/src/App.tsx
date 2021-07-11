@@ -2,6 +2,7 @@ import React from "react";
 import { CSSProperties } from "react";
 import "./App.css";
 
+// Interface for the props passed into the bar
 interface barInfo {
     size: number;
     position: number;
@@ -9,18 +10,16 @@ interface barInfo {
     maxSize: number;
 }
 
+// React element for the bar
 const Bar = (props: barInfo) => {
+    // CSS styles for bar
     var style: CSSProperties = {
-        width: ((1 / props.numOBars) * 75).toString() + "vw",
         height: props.size.toString() + "%",
-        transform:
-            "translateX(" +
-            ((props.position / props.size) * 80).toString() +
-            "vw)",
     };
     return <div className="bar" style={style}></div>;
 };
 
+// React element for the bar container
 const BarContainer = () => {
     return (
         <div className="barContainer">
@@ -29,6 +28,7 @@ const BarContainer = () => {
     );
 };
 
+// React element for the Controlls
 const Controlls = () => {
     return (
         <div className="controlls">
@@ -42,29 +42,26 @@ const Controlls = () => {
         </div>
     );
 };
+
+// React element for the Metrics
 const Metrics = () => {
     return (
         <div className="metrics">
-            <Time />
+            <span>Time: </span>
             <br />
-            <Comparisons />
+            <span>Comparisons: </span>
             <br />
-            <Swaps />
+            <span>Swaps: </span>
         </div>
     );
 };
-const Time = () => {
-    return <span>Time: </span>;
-};
-const Comparisons = () => {
-    return <span>Comparisons: </span>;
-};
-const Swaps = () => {
-    return <span>Swaps: </span>;
-};
+
+// react element for the Description
 const Description = () => {
     return <div className="description"></div>;
 };
+
+// Base app
 function App() {
     return (
         <div className="App">
