@@ -5,8 +5,11 @@
     margin: auto;
     display: flex;
     align-items: flex-end;
+    justify-content: center;
 }
 
 .bar {
     background: gray;
+    width: 5rem;
+    margin: 2px;
 }

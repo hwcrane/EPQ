@@ -167,3 +167,169 @@ Because there's no styling at all, it is very hard to tell what is going on. The
 This, plus some added text inside the controls, makes the app now look like this:
 
 <img src="./Assets/2021-07-08_10-46.png" />
+
+Now to add some bars, I started by by creating an interface and functional component for the bar:
+
+```tsx
+//interface for the props passed into the bar
+interface barProps {
+    size: number;
+    maxSize: number;
+    key: number;
+}
+// React element for the bars
+const Bar = (props: barProps) => {
+    // CSS styles for bar
+    var style: CSSProperties = {
+        height: ((props.size / props.maxSize) * 100).toString() + "%",
+    };
+    return <div className="bar" style={style}></div>;
+};
+```
+
+The interface declares the type of props being passed into the bar. These props are then used to determine the height of the bar. The height of a bar is represented as $\left ( \frac{Bar Size}{Max Bar Size} \times 100 \right ) $% of the bar containers height.
+
+To create the bars, I first needed a way of creating and storing the size of each bar. I achieved this by creating a `bars` array inside the program state. This array will contain the size of each bar. I also added a variable, `numOBars`, which contains the number of bars to be visualised.
+
+I then created a method that adds the numbers 1 -> numOBars to the bars array. This method is then run when the page loads to create the bars.
+
+```tsx
+// Base app
+class App extends React.Component {
+    componentDidMount() { // runs once the component has been loaded
+        this.makeBars();
+    }
+
+    state = {
+        numOBars: 50,
+        bars: [],
+    };
+
+    // method to make the bars
+    // if no parameters are entered, n is taken to be the number of bars
+    makeBars = (n = this.state.numOBars) => {
+        var b = [];
+        for (let i = 0; i < n; i++) {
+            // create an array b containing 1 -> n
+            b.push(i + 1);
+        }
+        this.setState({ bars: b, numOBars: n }); // sets the state of bars to be b
+    };
+```
+
+These state values are then passed into the barContainer component, where they are used to create the bars.
+
+```tsx
+//interface for the props passed into the bar container
+interface barContainerProps {
+    bars: Array<any>;
+    maxSize: number;
+}
+
+// React element for the bar container
+const BarContainer = (props: barContainerProps) => {
+    return (
+        <div className="barContainer">
+            {props.bars.map(
+                (
+                    bar //loop through all the array, creating a bar for each element
+                ) => (
+                    <Bar size={bar} maxSize={props.maxSize} key={bar} />
+                )
+            )}
+        </div>
+    );
+};
+```
+
+To make the bars centred and visible, I added this CSS styling
+
+```css
+.barContainer {
+    width: 80vw;
+    height: 20rem;
+    background: black;
+    margin: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.bar {
+    background: gray;
+    width: 5rem;
+    margin: 2px;
+}
+```
+
+I'm using a CSS flexbox for the bar container for two reasons. Firstly It will allow me centrally align the bars. Secondly, it will compress the elements inside of it so that they all fit. This means that all the bars will dynamically adjust their widths based on how much space is available.
+
+The app with the bars now looks like this:
+<img src="./Assets/2021-07-12_19-46.png" />
+
+The next thing to do was to allow the number of bars to be edited by the range input created earlier. I moved the code for the `Controls` component into its own file named 'controls.tsx`. This created the codebase easier to deal with as the code is spread over multiple files.
+
+Inside that file I added this code:
+
+```tsx
+import React from "react";
+import "./App.css";
+
+interface controlProps {
+    makeBars: any;
+}
+
+// react component for the control pannel
+export default class Controls extends React.Component<controlProps> {
+    barSelect: React.RefObject<HTMLInputElement>;
+    constructor(props: any) {
+        super(props);
+        this.barSelect = React.createRef(); // creates a ref which will be assigned to the bar select element
+    }
+
+    // calls the makeBars method from the app class and passes in the value of the length range
+    makeBars = () => {
+        this.props.makeBars(this.barSelect.current?.value);
+    };
+
+    public render() {
+        return (
+            <div className="controls">
+                <select className="algorithmSelect">
+                    <option value="">Select Algoritm</option>
+                </select>
+                <button className="startstop">Start</button>
+                <button className="reset">Reset</button>
+                Number of Bars :
+                <input
+                    type="range"
+                    ref={this.barSelect} // linking the barSelect ref to the element
+                    onChange={() => this.makeBars()} // call the `makeBars` method whenever the value of the range is changed
+                />
+                Speed: <input type="range" />
+            </div>
+        );
+    }
+}
+```
+
+Whenever the value of the range representing the number of bars changes, the method `MakeBars` is called, and the bars are remade.
+
+At the moment, the bars are always created in order, which makes sorting them pretty boring as they are already in order. Therefore inside the `MakeBars` method, I added some code to shuffle the array.
+
+```tsx
+// shuffles array
+for (let i = b.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+}
+```
+
+Now, the bars look like this:
+
+<img src="./Assets/2021-07-12_20-10.png" />
+
+and the range slider can be adjusted to increase or decrease the number of bars, which can be seen here:
+
+<img src="./Assets/2021-07-12_20-12.png" />
+<img src="./Assets/2021-07-12_20-12_1.png" />
