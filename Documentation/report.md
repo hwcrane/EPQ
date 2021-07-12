@@ -327,9 +327,15 @@ for (let i = b.length - 1; i > 0; i--) {
 
 Now, the bars look like this:
 
+
+
 <img src="./Assets/2021-07-12_20-10.png" />
 
-and the range slider can be adjusted to increase or decrease the number of bars, which can be seen here:
+
+
+And the range slider can be adjusted to increase or decrease the number of bars, which can be seen here:
+
+
 
 <img src="./Assets/2021-07-12_20-12.png" />
 <img src="./Assets/2021-07-12_20-12_1.png" />
