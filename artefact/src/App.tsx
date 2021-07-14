@@ -2,6 +2,8 @@ import React from "react";
 import { CSSProperties } from "react";
 import "./App.css";
 import Controls from "./Controls";
+import { bubble } from "./algorithms";
+
 // Interface for the props passed into the bar
 interface barProps {
     size: number;
@@ -32,7 +34,11 @@ const BarContainer = (props: barContainerProps) => {
                 (
                     bar //loop through all the array, creating a bar for each
                 ) => (
-                    <Bar size={bar} maxSize={props.maxSize} key={bar} />
+                    <Bar
+                        size={bar.size}
+                        maxSize={props.maxSize}
+                        key={props.bars.indexOf(bar)}
+                    />
                 )
             )}
         </div>
@@ -67,6 +73,20 @@ class App extends React.Component {
     state = {
         numOBars: 50,
         bars: [],
+        algorithms: [
+            "Bubble Sort",
+            "Quick Sort",
+            "Insertion Sort",
+            "Merge Sort",
+            "Selection Sort",
+            "Heap Sort",
+            "Radix Sort",
+            "Bucket Sort",
+        ],
+        sortingStages: [],
+        sortingStage: 0,
+        selectedAlgorithm: "",
+        stagesGenerated: false,
     };
 
     // method to make the bars
@@ -75,7 +95,7 @@ class App extends React.Component {
         var b = [];
         for (let i = 0; i < n; i++) {
             // create an array b containing 1 -> n
-            b.push(i + 1);
+            b.push({ size: i + 1 });
         }
 
         // shuffles array
@@ -87,6 +107,26 @@ class App extends React.Component {
         this.setState({ bars: b, numOBars: n }); // sets the state of bars to be b and numOBars to be n
     };
 
+    // method to set the selected algorithm
+    setAlgorithm = (algorithm: string) => {
+        this.setState({ selectedAlgorithm: algorithm });
+    };
+
+    // method to run whichever sorting algorithm is selected
+    runAlgorithm = (selected: string) => {
+        var sortingStages;
+        switch (
+            selected // Switch statement to select the algorithm to use
+        ) {
+            case "Bubble Sort":
+                sortingStages = bubble(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+        }
+        console.log(sortingStages);
+        this.setState({ sortingStages: sortingStages, sortingStage: 0 }); // sets the sortingStages array inside the state to be the stages genetrated by the algorithm, also sets the sorting stage to 0
+    };
+
     render() {
         return (
             <div className="App">
@@ -94,7 +134,11 @@ class App extends React.Component {
                     bars={this.state.bars}
                     maxSize={this.state.numOBars}
                 />
-                <Controls makeBars={this.makeBars} />
+                <Controls
+                    makeBars={this.makeBars}
+                    algorithms={this.state.algorithms}
+                    setAlgorithm={this.setAlgorithm}
+                />
                 <Metrics />
                 <Description />
             </div>
