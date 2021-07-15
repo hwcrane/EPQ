@@ -26,6 +26,11 @@ interface barContainerProps {
     maxSize: number;
 }
 
+// function for creating a delay
+const pause = (time: number) => {
+    return new Promise((resolve) => setTimeout(resolve, time));
+};
+
 // React element for the bar container
 const BarContainer = (props: barContainerProps) => {
     return (
@@ -83,10 +88,12 @@ class App extends React.Component {
             "Radix Sort",
             "Bucket Sort",
         ],
+        isRunning: false,
         sortingStages: [],
         sortingStage: 0,
         selectedAlgorithm: "",
         stagesGenerated: false,
+        timeouts: [],
     };
 
     // method to make the bars
@@ -104,29 +111,72 @@ class App extends React.Component {
             [b[i], b[j]] = [b[j], b[i]];
         }
 
-        this.setState({ bars: b, numOBars: n }); // sets the state of bars to be b and numOBars to be n
+        this.setState({
+            bars: b,
+            numOBars: n,
+            isRunning: false,
+            stagesGenerated: false,
+        }); // sets the state of bars to be b and numOBars to be n
     };
 
     // method to set the selected algorithm
     setAlgorithm = (algorithm: string) => {
-        this.setState({ selectedAlgorithm: algorithm });
+        this.setState({
+            selectedAlgorithm: algorithm,
+            stagesGenerated: false,
+            isRunning: false,
+        });
     };
 
     // method to run whichever sorting algorithm is selected
-    runAlgorithm = (selected: string) => {
+    runAlgorithm = () => {
         var sortingStages;
         switch (
-            selected // Switch statement to select the algorithm to use
+            this.state.selectedAlgorithm // Switch statement to select the algorithm to use
         ) {
             case "Bubble Sort":
                 sortingStages = bubble(
                     JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
                 );
         }
-        console.log(sortingStages);
-        this.setState({ sortingStages: sortingStages, sortingStage: 0 }); // sets the sortingStages array inside the state to be the stages genetrated by the algorithm, also sets the sorting stage to 0
+        this.setState({
+            sortingStages: sortingStages,
+            sortingStage: 0,
+            stagesGenerated: true,
+        }); // sets the sortingStages array inside the state to be the stages genetrated by the algorithm, also sets the sorting stage to 0
     };
 
+    // method to toggle the display state of the algorithm
+    togglePlayState = async () => {
+        if (this.state.selectedAlgorithm == "") {
+            alert("No algorithm selected");
+        } else {
+            if (!this.state.stagesGenerated) {
+                // generates the stages if not generated
+                await this.runAlgorithm();
+            }
+            await this.setState((prevState: any) => ({
+                isRunning: !prevState.isRunning,
+            }));
+            this.visulise();
+        }
+    };
+
+    visulise = async () => {
+        // checks if the visulisation is running and that there are stages left to visulise
+        if (
+            this.state.isRunning &&
+            this.state.sortingStage < this.state.sortingStages.length
+        ) {
+            // sets the state to be the next stage of the sorting and increments sortingStage
+            this.setState((prevState: any) => ({
+                bars: prevState.sortingStages[prevState.sortingStage],
+                sortingStage: prevState.sortingStage + 1,
+            }));
+            await pause(100); // delay
+            this.visulise(); // Calls itself to keep visulising
+        }
+    };
     render() {
         return (
             <div className="App">
@@ -138,6 +188,8 @@ class App extends React.Component {
                     makeBars={this.makeBars}
                     algorithms={this.state.algorithms}
                     setAlgorithm={this.setAlgorithm}
+                    togglePlayState={this.togglePlayState}
+                    isRunning={this.state.isRunning}
                 />
                 <Metrics />
                 <Description />

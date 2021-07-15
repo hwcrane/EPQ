@@ -83,7 +83,7 @@ ReactDOM.render(
 
 ## Sorting
 
-### basic page setup
+### Basic page setup
 
 The sorting algorithm page will contain these elements:
 
@@ -483,6 +483,8 @@ export const bubble = (bars: bar[]) => {
 ```
 
 Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the `algorithmSelected` function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
+
+
 
 ```tsx
 // method to set the selected algorithm

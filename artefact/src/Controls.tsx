@@ -1,9 +1,12 @@
 import React from "react";
+import { bubble } from "./algorithms";
 import "./App.css";
 
 interface controlProps {
     makeBars: (n: any) => void;
     setAlgorithm: (selection: any) => void;
+    togglePlayState: () => void;
+    isRunning: boolean;
     algorithms: string[];
 }
 
@@ -27,7 +30,17 @@ export default class Controls extends React.Component<controlProps> {
         this.props.setAlgorithm(this.algorithmSelect.current?.value);
     };
 
+    // calls the togglePlayState method in the App class
+    togglePlayState = () => {
+        this.props.togglePlayState();
+    };
+
     public render() {
+        if (this.props.isRunning) {
+            var buttonlbl = "stop";
+        } else {
+            var buttonlbl = "start";
+        }
         return (
             <div className="controls">
                 <select
@@ -45,7 +58,12 @@ export default class Controls extends React.Component<controlProps> {
                         </option>
                     ))}
                 </select>
-                <button className="startstop">Start</button>
+                <button
+                    className="startstop"
+                    onClick={() => this.togglePlayState()}
+                >
+                    {buttonlbl}
+                </button>
                 <button className="reset" onClick={() => this.makeBars()}>
                     Reset
                 </button>
