@@ -482,12 +482,22 @@ export const bubble = (bars: bar[]) => {
 };
 ```
 
+<<<<<<< HEAD
 Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the `algorithmSelected` function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
+=======
+### Select algorithm fix
+
+Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the algorithmSelected function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
+>>>>>>> 4320fbc149be3895e57b880e08840d9574af79cd
 
 ```tsx
 // method to set the selected algorithm
 setAlgorithm = (algorithm: string) => {
-    this.setState({ selectedAlgorithm: algorithm });
+    this.setState({
+        selectedAlgorithm: algorithm,
+        stagesGenerated: false,
+        isRunning: false,
+    });
 };
 ```
 
@@ -498,6 +508,7 @@ algorthmSelected = () => {
 };
 ```
 
+<<<<<<< HEAD
 ### Select algorithm fix
 
 Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the algorithmSelected function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
@@ -520,6 +531,8 @@ setAlgorithm = (algorithm: string) => {
     };
 ```
 
+=======
+>>>>>>> 4320fbc149be3895e57b880e08840d9574af79cd
 ### Visulisation
 
 First, I added a new variable inside the system class named `isRunning`, which will indicate when the visualiser is running. I then passed that variable to the `Controls` class, where it is used to set what is said on the playPause button.
@@ -568,8 +581,11 @@ visulise = async () => {
 
 This method is recursive, which means it calls itself. It will continue to call itself until either `this.isRunning` is set to false or all the sorting stages have been visualised.
 
+<<<<<<< HEAD
 ### Speed
 
+=======
+>>>>>>> 4320fbc149be3895e57b880e08840d9574af79cd
 The `pause` function pauses the operation of the visualiser for as many milliseconds that are passed in
 
 ```tsx
@@ -579,6 +595,7 @@ const pause = (time: number) => {
 };
 ```
 
+<<<<<<< HEAD
 Now, when bubble sort is selected, and the start button is pressed, bubble sort will start or resume being visualised. Likewise, the visualisation is paused when the stop button is pressed. At the moment, the algorithm has a fixed delay of 100ms hardcoded into the visualise method. Now I need to make it so that the speed range slider affects the delay of the visualisation.
 
 I did this similarly to how the bars are set. Whenever the range slider for the speed is changed, a function is called to set the `speed` variable in the program state to 1000 - range value. that is then used in the place of the hardcoded 100ms.
@@ -599,3 +616,6 @@ setSpeed = () => {
 ```
 
 Now, the speed slider can change the speed at which the visualiser is displayed.
+=======
+Now, when bubble sort is selected, and the start button is pressed, bubble sort will start or resume being visualised. Likewise, the visualisation is paused when the stop button is pressed. At the moment, the algorithm has a fixed delay of 100ms hardcoded into the visualise method. Now I need to make it so that the speed range slider affects the delay of the visualisation
+>>>>>>> 4320fbc149be3895e57b880e08840d9574af79cd
