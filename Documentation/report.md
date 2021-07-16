@@ -484,8 +484,6 @@ export const bubble = (bars: bar[]) => {
 
 Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the `algorithmSelected` function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
 
-
-
 ```tsx
 // method to set the selected algorithm
 setAlgorithm = (algorithm: string) => {
@@ -499,3 +497,105 @@ algorthmSelected = () => {
     this.props.setAlgorithm(this.algorithmSelect.current?.value);
 };
 ```
+
+### Select algorithm fix
+
+Now, whenever bubble sort is selected, all the steps for bubble sort are computed and saved. An issue at the moment, though, is that if you change the number of bars or reset them, the steps are not updated. One way I could fix this is to call the algorithmSelected function every time the bars are redrawn; however, this would be very computationally heavy, so a better way to do it is this. Store a new variable named `selectedAlgoritm` inside the application state. Then add a new method inside the App class, which sets this value. That method will then be called instead of `runAlgorithm` whenever a new algorithm is selected. `runAlgorithm `will then only run when the user presses play for the first time.
+
+```tsx
+// method to set the selected algorithm
+setAlgorithm = (algorithm: string) => {
+    this.setState({
+        selectedAlgorithm: algorithm,
+        stagesGenerated: false,
+        isRunning: false,
+    });
+};
+```
+
+```tsx
+/ calls the setAlgorithm method inside the app class
+    algorthmSelected = () => {
+        this.props.setAlgorithm(this.algorithmSelect.current?.value);
+    };
+```
+
+### Visulisation
+
+First, I added a new variable inside the system class named `isRunning`, which will indicate when the visualiser is running. I then passed that variable to the `Controls` class, where it is used to set what is said on the playPause button.
+
+That button then calls a method inside the App class called `togglePlayState` onClick.
+
+```tsx
+// method to toggle the display state of the algorithm
+togglePlayState = async () => {
+    if (this.state.selectedAlgorithm == "") {
+        alert("No algorithm selected");
+    } else {
+        if (!this.state.stagesGenerated) {
+            // generates the stages if not generated
+            await this.runAlgorithm();
+        }
+        await this.setState((prevState: any) => ({
+            //wait for the state to be toggled
+            isRunning: !prevState.isRunning,
+        }));
+        this.visulise();
+    }
+};
+```
+
+Firstly this method checks if an algorithm has been selected. If not, an alert is displayed. Then, it generates the sorting stages if they have not already been generated. Following that, it then toggles the `isRunning` variable inside the application state. I have set it to await this function because otherwise, it runs asynchronously, which will result in the variable not being toggled when the visualisation starts, causing it not to start.
+I then run the visualisation method, which will visualise The selected algorithm.
+
+```tsx
+visulise = async () => {
+    // checks if the visulisation is running and that there are stages left to visulise
+    if (
+        this.state.isRunning &&
+        this.state.sortingStage < this.state.sortingStages.length
+    ) {
+        // sets the state to be the next stage of the sorting and increments sortingStage
+        this.setState((prevState: any) => ({
+            bars: prevState.sortingStages[prevState.sortingStage],
+            sortingStage: prevState.sortingStage + 1,
+        }));
+        await pause(100); // delay
+        this.visulise(); // Calls itself to keep visulising
+    }
+};
+```
+
+This method is recursive, which means it calls itself. It will continue to call itself until either `this.isRunning` is set to false or all the sorting stages have been visualised.
+
+### Speed
+
+The `pause` function pauses the operation of the visualiser for as many milliseconds that are passed in
+
+```tsx
+// function for creating a delay
+const pause = (time: number) => {
+    return new Promise((resolve) => setTimeout(resolve, time));
+};
+```
+
+Now, when bubble sort is selected, and the start button is pressed, bubble sort will start or resume being visualised. Likewise, the visualisation is paused when the stop button is pressed. At the moment, the algorithm has a fixed delay of 100ms hardcoded into the visualise method. Now I need to make it so that the speed range slider affects the delay of the visualisation.
+
+I did this similarly to how the bars are set. Whenever the range slider for the speed is changed, a function is called to set the `speed` variable in the program state to 1000 - range value. that is then used in the place of the hardcoded 100ms.
+
+```tsx
+// method to set the speed of the visualiser
+setSpeed = (speed: number) => {
+    this.setState({ speed: speed });
+};
+```
+
+```tsx
+// calls the setSpeed method in the App class
+setSpeed = () => {
+    var speed: any = this.speed.current?.value; // get value from range
+    this.props.setSpeed(1000 - speed);
+};
+```
+
+Now, the speed slider can change the speed at which the visualiser is displayed.
