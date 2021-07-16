@@ -93,7 +93,7 @@ class App extends React.Component {
         sortingStage: 0,
         selectedAlgorithm: "",
         stagesGenerated: false,
-        timeouts: [],
+        speed: 750,
     };
 
     // method to make the bars
@@ -128,6 +128,11 @@ class App extends React.Component {
         });
     };
 
+    // method to set the speed of the visuliser
+    setSpeed = (speed: number) => {
+        this.setState({ speed: speed });
+    };
+
     // method to run whichever sorting algorithm is selected
     runAlgorithm = () => {
         var sortingStages;
@@ -156,6 +161,7 @@ class App extends React.Component {
                 await this.runAlgorithm();
             }
             await this.setState((prevState: any) => ({
+                //wait for the state to be toggled
                 isRunning: !prevState.isRunning,
             }));
             this.visulise();
@@ -173,7 +179,7 @@ class App extends React.Component {
                 bars: prevState.sortingStages[prevState.sortingStage],
                 sortingStage: prevState.sortingStage + 1,
             }));
-            await pause(100); // delay
+            await pause(this.state.speed); // delay
             this.visulise(); // Calls itself to keep visulising
         }
     };
@@ -190,6 +196,7 @@ class App extends React.Component {
                     setAlgorithm={this.setAlgorithm}
                     togglePlayState={this.togglePlayState}
                     isRunning={this.state.isRunning}
+                    setSpeed={this.setSpeed}
                 />
                 <Metrics />
                 <Description />
