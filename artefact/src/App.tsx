@@ -168,6 +168,52 @@ class App extends React.Component {
         }
     };
 
+    // steps forward through the visulisation by one step
+    setForward = async () => {
+        if (this.state.selectedAlgorithm == "") {
+            // checks if algorithm is selected
+            alert("No algorithm selected");
+        } else {
+            if (!this.state.stagesGenerated) {
+                // runs algorithm is no steps are generated
+                await this.runAlgorithm();
+            }
+            this.setState({ isRunning: false }); // sets running to false to stop the visulisation if it is running
+            if (
+                this.state.stagesGenerated &&
+                this.state.sortingStage < this.state.sortingStages.length
+            ) {
+                // sets the state to be the next stage of the sorting and increments sortingStage
+                this.setState((prevState: any) => ({
+                    bars: prevState.sortingStages[prevState.sortingStage + 1],
+                    sortingStage: prevState.sortingStage + 1,
+                }));
+            }
+        }
+    };
+
+    // steps backwards through the visulisation by one step
+    setBackward = async () => {
+        if (this.state.selectedAlgorithm == "") {
+            // checks if algorithm is selected
+            alert("No algorithm selected");
+        } else {
+            if (!this.state.stagesGenerated) {
+                // runs algorithm is no steps are generated
+                await this.runAlgorithm();
+            }
+            await this.setState({ isRunning: false }); // sets running to false to stop the visulisation if it is running
+            if (this.state.stagesGenerated && this.state.sortingStage > 0) {
+                // sets the state to be the next stage of the sorting and increments sortingStage
+                this.setState((prevState: any) => ({
+                    bars: prevState.sortingStages[prevState.sortingStage - 1],
+                    sortingStage: prevState.sortingStage - 1,
+                }));
+            }
+        }
+    };
+
+    // method to visulise the selected algorithm
     visulise = async () => {
         // checks if the visulisation is running and that there are stages left to visulise
         if (
@@ -176,7 +222,7 @@ class App extends React.Component {
         ) {
             // sets the state to be the next stage of the sorting and increments sortingStage
             this.setState((prevState: any) => ({
-                bars: prevState.sortingStages[prevState.sortingStage],
+                bars: prevState.sortingStages[prevState.sortingStage + 1],
                 sortingStage: prevState.sortingStage + 1,
             }));
             await pause(this.state.speed); // delay
@@ -197,6 +243,8 @@ class App extends React.Component {
                     togglePlayState={this.togglePlayState}
                     isRunning={this.state.isRunning}
                     setSpeed={this.setSpeed}
+                    stepForward={this.setForward}
+                    stepBackward={this.setBackward}
                 />
                 <Metrics />
                 <Description />

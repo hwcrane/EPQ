@@ -583,3 +583,77 @@ setSpeed = () => {
 ```
 
 Now, the speed slider can change the speed at which the visualiser is displayed.
+
+### stepping forwards and back
+
+I added two new buttons to the Controls component, these will allow you to step forwards and backwards through the visulisaion.
+
+```tsx
+<button // Step back button
+                    className="back"
+                    onClick={() => this.stepBackward()}
+                >
+                    Back
+                </button>
+                <button // start stop button
+                    className="startstop"
+                    onClick={() => this.togglePlayState()}
+                >
+                    {buttonlbl}
+                </button>
+                <button // step forward button
+                    className="forward"
+                    onClick={() => this.stepForward()}
+                >
+                    forward
+                </button>
+```
+
+They then call these methods in the app Component when clicked.
+
+```tsx
+// steps forward through the visulisation by one step
+setForward = async () => {
+    if (this.state.selectedAlgorithm == "") {
+        // checks if algorithm is selected
+        alert("No algorithm selected");
+    } else {
+        if (!this.state.stagesGenerated) {
+            // runs algorithm is no steps are generated
+            await this.runAlgorithm();
+        }
+        this.setState({ isRunning: false }); // sets running to false to stop the visulisation if it is running
+        if (
+            this.state.stagesGenerated &&
+            this.state.sortingStage < this.state.sortingStages.length
+        ) {
+            // sets the state to be the next stage of the sorting and increments sortingStage
+            this.setState((prevState: any) => ({
+                bars: prevState.sortingStages[prevState.sortingStage + 1],
+                sortingStage: prevState.sortingStage + 1,
+            }));
+        }
+    }
+};
+
+// steps backwards through the visulisation by one step
+setBackward = async () => {
+    if (this.state.selectedAlgorithm == "") {
+        // checks if algorithm is selected
+        alert("No algorithm selected");
+    } else {
+        if (!this.state.stagesGenerated) {
+            // runs algorithm is no steps are generated
+            await this.runAlgorithm();
+        }
+        await this.setState({ isRunning: false }); // sets running to false to stop the visulisation if it is running
+        if (this.state.stagesGenerated && this.state.sortingStage > 0) {
+            // sets the state to be the next stage of the sorting and increments sortingStage
+            this.setState((prevState: any) => ({
+                bars: prevState.sortingStages[prevState.sortingStage - 1],
+                sortingStage: prevState.sortingStage - 1,
+            }));
+        }
+    }
+};
+```

@@ -7,6 +7,8 @@ interface controlProps {
     setAlgorithm: (selection: any) => void;
     togglePlayState: () => void;
     setSpeed: (speed: any) => void;
+    stepForward: () => void;
+    stepBackward: () => void;
     isRunning: boolean;
     algorithms: string[];
 }
@@ -45,6 +47,16 @@ export default class Controls extends React.Component<controlProps> {
         this.props.setSpeed(1000 - speed);
     };
 
+    // calls the stepForward method in the App class
+    stepForward = () => {
+        this.props.stepForward();
+    };
+
+    // calls the stepBackward method in the App class
+    stepBackward = () => {
+        this.props.stepBackward();
+    };
+
     public render() {
         if (this.props.isRunning) {
             var buttonlbl = "stop";
@@ -53,7 +65,7 @@ export default class Controls extends React.Component<controlProps> {
         }
         return (
             <div className="controls">
-                <select
+                <select // Algorithm selector
                     className="algorithmSelect"
                     onInput={() => this.algorthmSelected()}
                     ref={this.algorithmSelect}
@@ -68,17 +80,32 @@ export default class Controls extends React.Component<controlProps> {
                         </option>
                     ))}
                 </select>
-                <button
+                <button // Step back button
+                    className="back"
+                    onClick={() => this.stepBackward()}
+                >
+                    Back
+                </button>
+                <button // start stop button
                     className="startstop"
                     onClick={() => this.togglePlayState()}
                 >
                     {buttonlbl}
                 </button>
-                <button className="reset" onClick={() => this.makeBars()}>
+                <button // step forward button
+                    className="forward"
+                    onClick={() => this.stepForward()}
+                >
+                    forward
+                </button>
+                <button // reset button
+                    className="reset"
+                    onClick={() => this.makeBars()}
+                >
                     Reset
                 </button>
                 Number of Bars :
-                <input
+                <input // bat range
                     type="range"
                     ref={this.barSelect} // linking the barSelect ref to the element
                     onChange={() => this.makeBars()} // call the `makeBars` method whenever the value of the range is changed
@@ -86,7 +113,7 @@ export default class Controls extends React.Component<controlProps> {
                     max={200}
                 />
                 Speed:{" "}
-                <input
+                <input // speed range
                     type="range"
                     ref={this.speed} // linking to the speed ref element
                     onChange={() => this.setSpeed()} // call the setSpeed method whenever the value of the range is changed
