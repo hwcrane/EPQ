@@ -441,12 +441,12 @@ A bubble sort of the array `[4, 3, 7, 2, 6]`
 **Second Pass:**
 
 [**3**, **4**, 2, 6, 7] -> [**3**, **4**, 2, 6, 7]
-[3, **4**, **2**, 6, 7] -> [3, **2**, **4**, 6, 7]2 < 4 so are swapped
+[3, **4**, **2**, 6, 7] -> [3, **2**, **4**, 6, 7] 2 < 4 so are swapped
 [3, 2, **4**, **6**, 7] -> [3, 2, **4**, **6**, 7]
 
 **Third Pass:**
 
-[**3**, **2**, 4, 6, 7] -> [**2**, **3**, 4, 6, 7]2 < 3 so are swapped
+[**3**, **2**, 4, 6, 7] -> [**2**, **3**, 4, 6, 7] 2 < 3 so are swapped
 [2, **3**, **4**, 6, 7] -> [2, **3**, **4**, 6, 7]
 
 The array is sorted. However, the algorithm doesn't know that yet. Therefore another pass is needed.
@@ -657,3 +657,150 @@ setBackward = async () => {
     }
 };
 ```
+
+### Colour change
+
+Although the algorithms can now be visualised, it is hard to follow as you can only see change when swaps occur. To rectify this, I will add different colouring to the bars depending on their current state. I have not decided on the final look of the application is, so I will use temporary colours.
+The different states a bar could be are :
+
+-   Unsorted
+-   Sorted
+-   Selected
+-   Pivot
+
+To start with, I moved all the code for the bars into a new file named `bar.tsx`. I then added a new field into the `barProps` interface called state, which will store the state of the bar.
+
+
+
+```tsx
+// type for bar state
+type barState = "unsorted" | "sorted" | "selected" | "pivot";
+
+// Interface for the props passed into the bar
+export interface barProps {
+    size: number;
+    maxSize: number;
+    key: number;
+    state: barState;
+}
+```
+
+I created a custom type for the bar state, meaning the bar state can only be set to one of the four types. I then added a switch statement into the bar component to assign the colour based on the state of the bar.
+
+
+
+```tsx
+// React element for the bars
+export const Bar = (props: barProps) => {
+    switch (
+        props.state // bar colour determined from state
+    ) {
+        case "unsorted":
+            var col = "grey";
+            break;
+        case "sorted":
+            var col = "green";
+            break;
+        case "selected":
+            var col = "red";
+            break;
+        case "pivot":
+            var col = "purple";
+            break;
+    }
+
+    // CSS styles for bar
+    var style: CSSProperties = {
+        height: ((props.size / props.maxSize) * 100).toString() + "%",
+        background: col,
+    };
+    return <div className="bar" style={style}></div>;
+};
+```
+
+I then modified the `makeBars` method inside the App component so they when the bars are created, they are all set to unsorted. And I changed the `barContainer` component so that the bar's state is passed in as a prop.
+
+```tsx
+makeBars = (n = this.state.numOBars) => {
+        var b = [];
+        for (let i = 0; i < n; i++) {
+            // create an array b containing 1 -> n
+            b.push({ size: i + 1, state: "unsorted" });
+        }
+```
+
+```tsx
+// React element for the bar container
+const BarContainer = (props: barContainerProps) => {
+    return (
+        <div className="barContainer">
+            {props.bars.map(
+                (
+                    bar //loop through all the array, creating a bar for each
+                ) => (
+                    <Bar
+                        size={bar.size}
+                        maxSize={props.maxSize}
+                        key={props.bars.indexOf(bar)}
+                        state={bar.state}
+                    />
+                )
+            )}
+        </div>
+    );
+};
+```
+
+Now that the visualiser can display the different states of the bars, the next step was to modify the bubble sort function so that the states are updated. So that the states can be displayed more accurately, the sorting steps will have to be updated more frequently. This will result in the visualiser being slower on average due to there being more steps. However, this reduced speed is essential for showing the algorithm in more detail.
+
+
+
+```tsx
+xport const bubble = (bars: barProps[]) => {
+    var stages = [];
+    stages.push(JSON.parse(JSON.stringify(bars))); // push first stage to array
+
+    var swapped = true;
+    for (var n = 0; n < bars.length && swapped; n++) {
+        // stop once a pass has completed with no swaps
+        swapped = false;
+        for (var i = 0; i < bars.length - 1 - n; i++) {
+            // loops through the array, with each pass one less element needs to be checked as you know is in the correct position
+
+            // sets current bars' state
+            bars[i].state = "selected";
+            bars[i + 1].state = "selected";
+
+            if (bars[i].size > bars[i + 1].size) {
+                stages.push(JSON.parse(JSON.stringify(bars))); // pushes step to stages
+
+                [bars[i], bars[i + 1]] = [bars[i + 1], bars[i]]; // swaps elements
+                swapped = true;
+            }
+            stages.push(JSON.parse(JSON.stringify(bars))); // pushes step to stages
+
+            // sets bars back to unsorted
+            bars[i].state = "unsorted";
+            bars[i + 1].state = "unsorted";
+        }
+        bars[bars.length - n - 1].state = "sorted"; // sets the last bar to sorted
+        stages.push(JSON.parse(JSON.stringify(bars))); // pushes step to stages
+
+        // once no swaps have been made, all the remaining bars are looped through and set to sorted
+        if (!swapped) {
+            for (var i = 0; i < bars.length - 1 - n; i++) {
+                bars[i].state = "sorted";
+                stages.push(JSON.parse(JSON.stringify(bars))); // pushes step to stages
+            }
+        }
+    }
+
+    return stages;
+};
+```
+
+Now, the visualiser can display a visualisation of the selected algorithm with the colouring of the bars. Here is an example of the bars mid-sort:
+
+
+
+<img src="./Assets/2021-07-19_01-27.png" />

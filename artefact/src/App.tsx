@@ -1,24 +1,8 @@
 import React from "react";
-import { CSSProperties } from "react";
 import "./App.css";
 import Controls from "./Controls";
 import { bubble } from "./algorithms";
-
-// Interface for the props passed into the bar
-interface barProps {
-    size: number;
-    maxSize: number;
-    key: number;
-}
-
-// React element for the bars
-const Bar = (props: barProps) => {
-    // CSS styles for bar
-    var style: CSSProperties = {
-        height: ((props.size / props.maxSize) * 100).toString() + "%",
-    };
-    return <div className="bar" style={style}></div>;
-};
+import { Bar } from "./bar";
 
 //interface for the props passed into the bar container
 interface barContainerProps {
@@ -43,6 +27,7 @@ const BarContainer = (props: barContainerProps) => {
                         size={bar.size}
                         maxSize={props.maxSize}
                         key={props.bars.indexOf(bar)}
+                        state={bar.state}
                     />
                 )
             )}
@@ -102,7 +87,7 @@ class App extends React.Component {
         var b = [];
         for (let i = 0; i < n; i++) {
             // create an array b containing 1 -> n
-            b.push({ size: i + 1 });
+            b.push({ size: i + 1, state: "unsorted" });
         }
 
         // shuffles array
@@ -181,7 +166,7 @@ class App extends React.Component {
             this.setState({ isRunning: false }); // sets running to false to stop the visulisation if it is running
             if (
                 this.state.stagesGenerated &&
-                this.state.sortingStage < this.state.sortingStages.length
+                this.state.sortingStage < this.state.sortingStages.length - 1
             ) {
                 // sets the state to be the next stage of the sorting and increments sortingStage
                 this.setState((prevState: any) => ({
@@ -218,7 +203,7 @@ class App extends React.Component {
         // checks if the visulisation is running and that there are stages left to visulise
         if (
             this.state.isRunning &&
-            this.state.sortingStage < this.state.sortingStages.length
+            this.state.sortingStage < this.state.sortingStages.length - 1
         ) {
             // sets the state to be the next stage of the sorting and increments sortingStage
             this.setState((prevState: any) => ({
