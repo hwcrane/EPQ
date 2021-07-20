@@ -10,6 +10,12 @@ interface barContainerProps {
     maxSize: number;
 }
 
+// interface for the props passed into the metrics element
+interface metricsProps {
+    swaps: number;
+    comparisons: number;
+}
+
 // function for creating a delay
 const pause = (time: number) => {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -36,14 +42,12 @@ const BarContainer = (props: barContainerProps) => {
 };
 
 // React element for the Metrics
-const Metrics = () => {
+const Metrics = (props: metricsProps) => {
     return (
         <div className="metrics">
-            <span>Time: </span>
+            <span>Comparisons: {props.comparisons}</span>
             <br />
-            <span>Comparisons: </span>
-            <br />
-            <span>Swaps: </span>
+            <span>Swaps: {props.swaps}</span>
         </div>
     );
 };
@@ -79,6 +83,8 @@ class App extends React.Component {
         selectedAlgorithm: "",
         stagesGenerated: false,
         speed: 750,
+        comparisons: 0,
+        swaps: 0,
     };
 
     // method to make the bars
@@ -170,7 +176,13 @@ class App extends React.Component {
             ) {
                 // sets the state to be the next stage of the sorting and increments sortingStage
                 this.setState((prevState: any) => ({
-                    bars: prevState.sortingStages[prevState.sortingStage + 1],
+                    bars: prevState.sortingStages[prevState.sortingStage + 1]
+                        .bars,
+                    swaps: prevState.sortingStages[prevState.sortingStage + 1]
+                        .swaps,
+                    comparisons:
+                        prevState.sortingStages[prevState.sortingStage + 1]
+                            .comparisons,
                     sortingStage: prevState.sortingStage + 1,
                 }));
             }
@@ -191,7 +203,13 @@ class App extends React.Component {
             if (this.state.stagesGenerated && this.state.sortingStage > 0) {
                 // sets the state to be the next stage of the sorting and increments sortingStage
                 this.setState((prevState: any) => ({
-                    bars: prevState.sortingStages[prevState.sortingStage - 1],
+                    bars: prevState.sortingStages[prevState.sortingStage - 1]
+                        .bars,
+                    swaps: prevState.sortingStages[prevState.sortingStage + 1]
+                        .swaps,
+                    comparisons:
+                        prevState.sortingStages[prevState.sortingStage + 1]
+                            .comparisons,
                     sortingStage: prevState.sortingStage - 1,
                 }));
             }
@@ -207,7 +225,12 @@ class App extends React.Component {
         ) {
             // sets the state to be the next stage of the sorting and increments sortingStage
             this.setState((prevState: any) => ({
-                bars: prevState.sortingStages[prevState.sortingStage + 1],
+                bars: prevState.sortingStages[prevState.sortingStage + 1].bars,
+                swaps: prevState.sortingStages[prevState.sortingStage + 1]
+                    .swaps,
+                comparisons:
+                    prevState.sortingStages[prevState.sortingStage + 1]
+                        .comparisons,
                 sortingStage: prevState.sortingStage + 1,
             }));
             await pause(this.state.speed); // delay
@@ -231,7 +254,10 @@ class App extends React.Component {
                     stepForward={this.setForward}
                     stepBackward={this.setBackward}
                 />
-                <Metrics />
+                <Metrics
+                    swaps={this.state.swaps}
+                    comparisons={this.state.comparisons}
+                />
                 <Description />
             </div>
         );

@@ -670,8 +670,6 @@ The different states a bar could be are :
 
 To start with, I moved all the code for the bars into a new file named `bar.tsx`. I then added a new field into the `barProps` interface called state, which will store the state of the bar.
 
-
-
 ```tsx
 // type for bar state
 type barState = "unsorted" | "sorted" | "selected" | "pivot";
@@ -686,8 +684,6 @@ export interface barProps {
 ```
 
 I created a custom type for the bar state, meaning the bar state can only be set to one of the four types. I then added a switch statement into the bar component to assign the colour based on the state of the bar.
-
-
 
 ```tsx
 // React element for the bars
@@ -753,8 +749,6 @@ const BarContainer = (props: barContainerProps) => {
 
 Now that the visualiser can display the different states of the bars, the next step was to modify the bubble sort function so that the states are updated. So that the states can be displayed more accurately, the sorting steps will have to be updated more frequently. This will result in the visualiser being slower on average due to there being more steps. However, this reduced speed is essential for showing the algorithm in more detail.
 
-
-
 ```tsx
 xport const bubble = (bars: barProps[]) => {
     var stages = [];
@@ -801,6 +795,122 @@ xport const bubble = (bars: barProps[]) => {
 
 Now, the visualiser can display a visualisation of the selected algorithm with the colouring of the bars. Here is an example of the bars mid-sort:
 
-
-
 <img src="./Assets/2021-07-19_01-27.png" />
+
+### Swaps and comparisons
+
+Originally I intended to record and display the number of swaps, comparisons, and time taken whist the algorithms are running. However, showing the time will no longer work due to the added ability to step forwards and backwards. Different devices would run at different speeds anyway, so the time would not be consistent. Therefore, I will only display the number of swaps and comparisons made.
+
+First, I modified `algorithms.ts` to record the number of comparisons and swaps taken. Then instead of only the stages of the bars, it now saves the swaps and comparisons too.
+
+```typescript
+interface stage {
+    bars: barProps[];
+    comparisons: number;
+    swaps: number;
+}
+
+export const bubble = (bars: barProps[]) => {
+    var stages: stage[] = [];
+    var comparisons = 0;
+    var swaps = 0;
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+
+    var swapped = true;
+    for (var n = 0; n < bars.length && swapped; n++) {
+        // stop once a pass has completed with no swaps
+        swapped = false;
+        for (var i = 0; i < bars.length - 1 - n; i++) {
+            // loops through the array, with each pass one less element needs to be checked as you know is in the correct position
+
+            // sets current bars' state
+            bars[i].state = "selected";
+            bars[i + 1].state = "selected";
+
+            comparisons++;
+
+            if (bars[i].size > bars[i + 1].size) {
+                stages.push({
+                    bars: JSON.parse(JSON.stringify(bars)),
+                    swaps: swaps,
+                    comparisons: comparisons,
+                }); // pushes step to stages
+
+                [bars[i], bars[i + 1]] = [bars[i + 1], bars[i]]; // swaps elements
+                swapped = true;
+                swaps++;
+            }
+            stages.push({
+                bars: JSON.parse(JSON.stringify(bars)),
+                swaps: swaps,
+                comparisons: comparisons,
+            }); // pushes step to stages
+
+            // sets bars back to unsorted
+            bars[i].state = "unsorted";
+            bars[i + 1].state = "unsorted";
+        }
+        bars[bars.length - n - 1].state = "sorted"; // sets the last bar to sorted
+        stages.push({
+            bars: JSON.parse(JSON.stringify(bars)),
+            swaps: swaps,
+            comparisons: comparisons,
+        }); // pushes step to stages
+
+        // once no swaps have been made, all the remaining bars are looped through and set to sorted
+        if (!swapped) {
+            for (var i = 0; i < bars.length - 1 - n; i++) {
+                bars[i].state = "sorted";
+                stages.push({
+                    bars: JSON.parse(JSON.stringify(bars)),
+                    swaps: swaps,
+                    comparisons: comparisons,
+                }); // pushes step to stages
+            }
+        }
+    }
+
+    return stages;
+};
+```
+
+SortingStages is now an array of interfaces containing the bars, swaps, and comparisons for each stage. The code for stepping through the stages needs to be modified to take all the stage parts and add them to the application state. Here is an example of the revised code from the `visualise` method:
+
+```tsx
+this.setState((prevState: any) => ({
+    bars: prevState.sortingStages[prevState.sortingStage + 1].bars,
+    swaps: prevState.sortingStages[prevState.sortingStage + 1].swaps,
+    comparisons:
+        prevState.sortingStages[prevState.sortingStage + 1].comparisons,
+    sortingStage: prevState.sortingStage + 1,
+}));
+```
+
+Using those new state values, I then passed them into the `Metrics` component to display them and removed the speed indicator.
+
+```tsx
+// interface for the props passed into the metrics element
+interface metricsProps {
+    swaps: number;
+    comparisons: number;
+}
+
+// React element for the Metrics
+const Metrics = (props: metricsProps) => {
+    return (
+        <div className="metrics">
+            <span>Comparisons: {props.comparisons}</span>
+            <br />
+            <span>Swaps: {props.swaps}</span>
+        </div>
+    );
+};
+```
+
+Now, the number of swaps and comparisons carried out are shown under the visualiser.
+
+<img src="./Assets/2021-07-20.png" />
