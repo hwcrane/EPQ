@@ -1,17 +1,6 @@
 import React from "react";
-import { bubble } from "./algorithms";
+import { controlProps } from "./types";
 import "./App.css";
-
-interface controlProps {
-    makeBars: (n: any) => void;
-    setAlgorithm: (selection: any) => void;
-    togglePlayState: () => void;
-    setSpeed: (speed: any) => void;
-    stepForward: () => void;
-    stepBackward: () => void;
-    isRunning: boolean;
-    algorithms: string[];
-}
 
 // react component for the control pannel
 export default class Controls extends React.Component<controlProps> {

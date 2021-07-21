@@ -1,16 +1,6 @@
 import React from "react";
 import { CSSProperties } from "react";
-
-// type for bar state
-type barState = "unsorted" | "sorted" | "selected" | "pivot";
-
-// Interface for the props passed into the bar
-export interface barProps {
-    size: number;
-    maxSize: number;
-    key: number;
-    state: barState;
-}
+import { barProps } from "./types";
 
 // React element for the bars
 export const Bar = (props: barProps) => {

@@ -3,18 +3,9 @@ import "./App.css";
 import Controls from "./Controls";
 import { bubble } from "./algorithms";
 import { Bar } from "./bar";
-
-//interface for the props passed into the bar container
-interface barContainerProps {
-    bars: Array<any>;
-    maxSize: number;
-}
-
-// interface for the props passed into the metrics element
-interface metricsProps {
-    swaps: number;
-    comparisons: number;
-}
+import { barContainerProps, metricsProps, appState, bar, stage } from "./types";
+import Description from "./description";
+import ProgressBar from "./progressBar";
 
 // function for creating a delay
 const pause = (time: number) => {
@@ -52,13 +43,8 @@ const Metrics = (props: metricsProps) => {
     );
 };
 
-// react element for the Description
-const Description = () => {
-    return <div className="description"></div>;
-};
-
 // Base app
-class App extends React.Component {
+class App extends React.Component<any, appState> {
     componentDidMount() {
         // runs once the component has been loaded
         this.makeBars();
@@ -91,9 +77,11 @@ class App extends React.Component {
     // if no parameters are entered, n is taken to be the number of bars
     makeBars = (n = this.state.numOBars) => {
         var b = [];
+        var newbar: bar;
         for (let i = 0; i < n; i++) {
             // create an array b containing 1 -> n
-            b.push({ size: i + 1, state: "unsorted" });
+            newbar = { size: i + 1, state: "unsorted" };
+            b.push(newbar);
         }
 
         // shuffles array
@@ -126,7 +114,7 @@ class App extends React.Component {
 
     // method to run whichever sorting algorithm is selected
     runAlgorithm = () => {
-        var sortingStages;
+        var sortingStages: stage[] = [];
         switch (
             this.state.selectedAlgorithm // Switch statement to select the algorithm to use
         ) {
@@ -205,10 +193,10 @@ class App extends React.Component {
                 this.setState((prevState: any) => ({
                     bars: prevState.sortingStages[prevState.sortingStage - 1]
                         .bars,
-                    swaps: prevState.sortingStages[prevState.sortingStage + 1]
+                    swaps: prevState.sortingStages[prevState.sortingStage - 1]
                         .swaps,
                     comparisons:
-                        prevState.sortingStages[prevState.sortingStage + 1]
+                        prevState.sortingStages[prevState.sortingStage - 1]
                             .comparisons,
                     sortingStage: prevState.sortingStage - 1,
                 }));
@@ -244,6 +232,11 @@ class App extends React.Component {
                     bars={this.state.bars}
                     maxSize={this.state.numOBars}
                 />
+                <ProgressBar
+                    stage={this.state.sortingStage}
+                    max={this.state.sortingStages.length}
+                />
+
                 <Controls
                     makeBars={this.makeBars}
                     algorithms={this.state.algorithms}
@@ -258,7 +251,7 @@ class App extends React.Component {
                     swaps={this.state.swaps}
                     comparisons={this.state.comparisons}
                 />
-                <Description />
+                <Description selectedAlgorithm={this.state.selectedAlgorithm} />
             </div>
         );
     }

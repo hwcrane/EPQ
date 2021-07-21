@@ -1,12 +1,6 @@
-import { barProps } from "./bar";
+import { bar, stage } from "./types";
 
-interface stage {
-    bars: barProps[];
-    comparisons: number;
-    swaps: number;
-}
-
-export const bubble = (bars: barProps[]) => {
+export const bubble = (bars: bar[]): stage[] => {
     var stages: stage[] = [];
     var comparisons = 0;
     var swaps = 0;

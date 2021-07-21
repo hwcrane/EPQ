@@ -13,3 +13,19 @@
     width: 5rem;
     margin: 2px;
 }
+
+.description {
+    background: gray;
+}
+
+.outerProgressBar {
+    width: 80vw;
+    height: 1rem;
+    background: grey;
+    margin: auto;
+}
+
+.innerProgressBar {
+    height: 100%;
+    background: blue;
+}
