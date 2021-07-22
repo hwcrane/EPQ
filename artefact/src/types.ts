@@ -1,3 +1,5 @@
+import AlgoritmSelector from "./algoritmSelector";
+
 // types for the stage
 export interface stage {
     bars: bar[];
@@ -13,13 +15,29 @@ export interface descriptionProps {
 // Types for the props passed into the control component
 export interface controlProps {
     makeBars: (n: any) => void;
-    setAlgorithm: (selection: any) => void;
-    togglePlayState: () => void;
+
     setSpeed: (speed: any) => void;
+}
+
+export interface stepForwardProps {
     stepForward: () => void;
-    stepBackward: () => void;
+}
+export interface startStopProps {
+    togglePlayState: () => void;
     isRunning: boolean;
+}
+
+export interface stepBackwardsProps {
+    stepBackward: () => void;
+}
+
+export interface algoritmSelectorProps {
+    setAlgorithm: (selection: any) => void;
     algorithms: string[];
+}
+
+export interface resetButtonProps {
+    reset: () => void;
 }
 
 //interface for the props passed into the bar container

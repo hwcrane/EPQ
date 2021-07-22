@@ -6,6 +6,12 @@ import { Bar } from "./bar";
 import { barContainerProps, metricsProps, appState, bar, stage } from "./types";
 import Description from "./description";
 import ProgressBar from "./progressBar";
+import AlgoritmSelector from "./algoritmSelector";
+import BackButton from "./backButton";
+import StartStopButton from "./startStopButton";
+import { throws } from "assert";
+import ForwardButton from "./forwardButton";
+import ResetButton from "./resetButton";
 
 // function for creating a delay
 const pause = (time: number) => {
@@ -148,7 +154,7 @@ class App extends React.Component<any, appState> {
     };
 
     // steps forward through the visulisation by one step
-    setForward = async () => {
+    stepForward = async () => {
         if (this.state.selectedAlgorithm == "") {
             // checks if algorithm is selected
             alert("No algorithm selected");
@@ -178,7 +184,7 @@ class App extends React.Component<any, appState> {
     };
 
     // steps backwards through the visulisation by one step
-    setBackward = async () => {
+    stepBackward = async () => {
         if (this.state.selectedAlgorithm == "") {
             // checks if algorithm is selected
             alert("No algorithm selected");
@@ -236,17 +242,18 @@ class App extends React.Component<any, appState> {
                     stage={this.state.sortingStage}
                     max={this.state.sortingStages.length}
                 />
-
-                <Controls
-                    makeBars={this.makeBars}
-                    algorithms={this.state.algorithms}
+                <AlgoritmSelector
                     setAlgorithm={this.setAlgorithm}
-                    togglePlayState={this.togglePlayState}
-                    isRunning={this.state.isRunning}
-                    setSpeed={this.setSpeed}
-                    stepForward={this.setForward}
-                    stepBackward={this.setBackward}
+                    algorithms={this.state.algorithms}
                 />
+                <BackButton stepBackward={this.stepBackward} />
+                <StartStopButton
+                    isRunning={this.state.isRunning}
+                    togglePlayState={this.togglePlayState}
+                />
+                <ForwardButton stepForward={this.stepForward} />
+                <ResetButton reset={this.makeBars} />
+                <Controls makeBars={this.makeBars} setSpeed={this.setSpeed} />
                 <Metrics
                     swaps={this.state.swaps}
                     comparisons={this.state.comparisons}
