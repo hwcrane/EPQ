@@ -1,9 +1,9 @@
 import React from "react";
-import { controlProps } from "./types";
+import { speedSelectorProps } from "./types";
 import "./App.css";
 
 // react component for the control pannel
-export default class Controls extends React.Component<controlProps> {
+export default class SpeedSelector extends React.Component<speedSelectorProps> {
     speed: React.RefObject<HTMLInputElement>;
 
     constructor(props: any) {
@@ -21,7 +21,7 @@ export default class Controls extends React.Component<controlProps> {
     public render() {
         return (
             <div className="controls">
-                Speed:{" "}
+                Speed:
                 <input // speed range
                     type="range"
                     ref={this.speed} // linking to the speed ref element

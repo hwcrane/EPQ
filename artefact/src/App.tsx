@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Controls from "./Controls";
+import SpeedSelector from "./speedSelector";
 import { bubble } from "./algorithms";
 import { Bar } from "./bar";
 import { barContainerProps, metricsProps, appState, bar, stage } from "./types";
@@ -255,7 +255,7 @@ class App extends React.Component<any, appState> {
                 <ForwardButton stepForward={this.stepForward} />
                 <ResetButton reset={this.makeBars} />
                 <NumOBarsSelector makeBars={this.makeBars} />
-                <Controls setSpeed={this.setSpeed} />
+                <SpeedSelector setSpeed={this.setSpeed} />
                 <Metrics
                     swaps={this.state.swaps}
                     comparisons={this.state.comparisons}

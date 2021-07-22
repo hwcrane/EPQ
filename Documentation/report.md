@@ -1121,3 +1121,153 @@ and this is the subsequent CSS
 Here is how the visuliser now looks:
 
 <img src="./Assets/2021-07-21-233031.png" />
+
+### Component cleanup
+
+I was unhappy with how large the `Controls` component had become. Therefore, I reduced it down to many smaller components. This will allow easier code maintenance and more freedom as to how I arrange them on the screen. It will also make it easier to reuse any of them for the other two visualisers. I created the new files: `algorithmSelector.tsx`, `backButton.tsx`, `startStopButton.tsx`, `forwardButon.tsx`, `resetButton.tsx`, `numOBarsSelector.tsx`, and `speedSelector.tsx`. Which contain respectively:
+
+```tsx
+export default class AlgoritmSelector extends React.Component<algoritmSelectorProps> {
+    ref: React.RefObject<HTMLSelectElement>;
+
+    constructor(props: algoritmSelectorProps) {
+        super(props);
+        this.ref = React.createRef();
+    }
+
+    // calls the setAlgorithm method inside the app class
+    algorthmSelected = () => {
+        this.props.setAlgorithm(this.ref.current?.value);
+    };
+
+    render() {
+        return (
+            <select // Algorithm selector
+                className="algorithmSelect"
+                onInput={() => this.algorthmSelected()}
+                ref={this.ref}
+            >
+                <option value="">Select Algoritm</option>
+                {this.props.algorithms.map((a) => (
+                    <option value={a} key={this.props.algorithms.indexOf(a)}>
+                        {a}
+                    </option>
+                ))}
+            </select>
+        );
+    }
+}
+```
+
+```tsx
+export default class BackButton extends React.Component<stepBackwardsProps> {
+    // calls the stepBackward method in the App class
+    stepBackward = () => {
+        this.props.stepBackward();
+    };
+
+    render() {
+        return (
+            <button className="backButton" onClick={() => this.stepBackward()}>
+                back
+            </button>
+        );
+    }
+}
+```
+
+```tsx
+export default class StartStopButton extends React.Component<startStopProps> {
+    // calls the togglePlayState method in the App class
+    togglePlayState = () => {
+        this.props.togglePlayState();
+    };
+
+    render() {
+        var buttonlbl: string;
+        if (this.props.isRunning) {
+            buttonlbl = "stop";
+        } else {
+            buttonlbl = "start";
+        }
+        return (
+            <button // start stop button
+                className="startstop"
+                onClick={() => this.togglePlayState()}
+            >
+                {buttonlbl}
+            </button>
+        );
+    }
+}
+```
+
+```tsx
+export default class ForwardButton extends React.Component<stepForwardProps> {
+    // calls the stepForward method in the App class
+    stepForward = () => {
+        this.props.stepForward();
+    };
+
+    render() {
+        return (
+            <button // step forward button
+                className="forward"
+                onClick={() => this.stepForward()}
+            >
+                forward
+            </button>
+        );
+    }
+}
+```
+
+```tsx
+export default class ResetButton extends React.Component<resetButtonProps> {
+    reset = () => {
+        this.props.reset();
+    };
+
+    render() {
+        return (
+            <button // reset button
+                className="reset"
+                onClick={() => this.reset()}
+            >
+                Reset
+            </button>
+        );
+    }
+}
+```
+
+```tsx
+export default class NumOBarsSelector extends React.Component<numOBarsSelectorProps> {
+    ref: React.RefObject<HTMLInputElement>;
+
+    constructor(props: numOBarsSelectorProps) {
+        super(props);
+        this.ref = React.createRef();
+    }
+
+    // calls the makeBars method from the app class and passes in the value of the length range
+    makeBars = () => {
+        this.props.makeBars(this.ref.current?.value);
+    };
+
+    render() {
+        return (
+            <div>
+                Number of Bars :
+                <input // bat range
+                    type="range"
+                    ref={this.ref} // linking the barSelect ref to the element
+                    onChange={() => this.makeBars()} // call the `makeBars` method whenever the value of the range is changed
+                    min={5}
+                    max={200}
+                />
+            </div>
+        );
+    }
+}
+```

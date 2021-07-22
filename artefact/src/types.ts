@@ -11,7 +11,7 @@ export interface descriptionProps {
 }
 
 // Types for the props passed into the control component
-export interface controlProps {
+export interface speedSelectorProps {
     setSpeed: (speed: any) => void;
 }
 
