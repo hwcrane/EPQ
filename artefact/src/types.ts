@@ -1,5 +1,3 @@
-import AlgoritmSelector from "./algoritmSelector";
-
 // types for the stage
 export interface stage {
     bars: bar[];
@@ -14,9 +12,11 @@ export interface descriptionProps {
 
 // Types for the props passed into the control component
 export interface controlProps {
-    makeBars: (n: any) => void;
-
     setSpeed: (speed: any) => void;
+}
+
+export interface numOBarsSelectorProps {
+    makeBars: (n: any) => void;
 }
 
 export interface stepForwardProps {

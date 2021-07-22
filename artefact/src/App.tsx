@@ -12,6 +12,7 @@ import StartStopButton from "./startStopButton";
 import { throws } from "assert";
 import ForwardButton from "./forwardButton";
 import ResetButton from "./resetButton";
+import NumOBarsSelector from "./numOBarsSelector";
 
 // function for creating a delay
 const pause = (time: number) => {
@@ -253,7 +254,8 @@ class App extends React.Component<any, appState> {
                 />
                 <ForwardButton stepForward={this.stepForward} />
                 <ResetButton reset={this.makeBars} />
-                <Controls makeBars={this.makeBars} setSpeed={this.setSpeed} />
+                <NumOBarsSelector makeBars={this.makeBars} />
+                <Controls setSpeed={this.setSpeed} />
                 <Metrics
                     swaps={this.state.swaps}
                     comparisons={this.state.comparisons}
