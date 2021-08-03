@@ -1,5 +1,5 @@
 import React from "react";
-import { stepForwardProps } from "./types";
+import { stepForwardProps } from "../../types";
 
 export default class ForwardButton extends React.Component<stepForwardProps> {
     // calls the stepForward method in the App class

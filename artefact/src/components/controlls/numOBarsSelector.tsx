@@ -1,5 +1,5 @@
 import React from "react";
-import { numOBarsSelectorProps } from "./types";
+import { numOBarsSelectorProps } from "../../types";
 
 export default class NumOBarsSelector extends React.Component<numOBarsSelectorProps> {
     ref: React.RefObject<HTMLInputElement>;

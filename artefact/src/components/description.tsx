@@ -1,6 +1,6 @@
 import React, { CSSProperties } from "react";
-import "./App.css";
-import { descriptionProps } from "./types";
+import "../App.css";
+import { descriptionProps } from "../types";
 
 export default class Description extends React.Component<descriptionProps> {
     render() {

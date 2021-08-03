@@ -1,6 +1,6 @@
 import React from "react";
-import { speedSelectorProps } from "./types";
-import "./App.css";
+import { speedSelectorProps } from "../../types";
+import "../../App.css";
 
 // react component for the control pannel
 export default class SpeedSelector extends React.Component<speedSelectorProps> {
@@ -28,7 +28,8 @@ export default class SpeedSelector extends React.Component<speedSelectorProps> {
                     onChange={() => this.setSpeed()} // call the setSpeed method whenever the value of the range is changed
                     max={1000}
                     defaultValue={750}
-                    min={0}
+                    min={500}
+                    step={50}
                 />
             </div>
         );

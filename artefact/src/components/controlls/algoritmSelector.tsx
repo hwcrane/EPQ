@@ -1,5 +1,5 @@
 import React from "react";
-import { algoritmSelectorProps } from "./types";
+import { algoritmSelectorProps } from "../../types";
 
 export default class AlgoritmSelector extends React.Component<algoritmSelectorProps> {
     ref: React.RefObject<HTMLSelectElement>;

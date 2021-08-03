@@ -1,5 +1,5 @@
 import React from "react";
-import { resetButtonProps } from "./types";
+import { resetButtonProps } from "../../types";
 
 export default class ResetButton extends React.Component<resetButtonProps> {
     reset = () => {

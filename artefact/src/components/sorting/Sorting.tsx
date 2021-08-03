@@ -1,57 +1,26 @@
 import React from "react";
-import "./App.css";
-import SpeedSelector from "./speedSelector";
-import { bubble } from "./algorithms";
-import { Bar } from "./bar";
-import { barContainerProps, metricsProps, appState, bar, stage } from "./types";
-import Description from "./description";
+import "../../App.css";
+import SpeedSelector from "../controlls/speedSelector";
+import { bubble } from "../../algorithms";
+import { appState, bar, stage } from "../../types";
+import Description from "../description";
 import ProgressBar from "./progressBar";
-import AlgoritmSelector from "./algoritmSelector";
-import BackButton from "./backButton";
-import StartStopButton from "./startStopButton";
-import { throws } from "assert";
-import ForwardButton from "./forwardButton";
-import ResetButton from "./resetButton";
-import NumOBarsSelector from "./numOBarsSelector";
+import AlgoritmSelector from "../controlls/algoritmSelector";
+import BackButton from "../controlls/backButton";
+import StartStopButton from "../controlls/startStopButton";
+import ForwardButton from "../controlls/forwardButton";
+import ResetButton from "../controlls/resetButton";
+import NumOBarsSelector from "../controlls/numOBarsSelector";
+import { BarContainer } from "./barContainer";
+import { Metrics } from "../metrics";
 
 // function for creating a delay
 const pause = (time: number) => {
     return new Promise((resolve) => setTimeout(resolve, time));
 };
 
-// React element for the bar container
-const BarContainer = (props: barContainerProps) => {
-    return (
-        <div className="barContainer">
-            {props.bars.map(
-                (
-                    bar //loop through all the array, creating a bar for each
-                ) => (
-                    <Bar
-                        size={bar.size}
-                        maxSize={props.maxSize}
-                        key={props.bars.indexOf(bar)}
-                        state={bar.state}
-                    />
-                )
-            )}
-        </div>
-    );
-};
-
-// React element for the Metrics
-const Metrics = (props: metricsProps) => {
-    return (
-        <div className="metrics">
-            <span>Comparisons: {props.comparisons}</span>
-            <br />
-            <span>Swaps: {props.swaps}</span>
-        </div>
-    );
-};
-
 // Base app
-class App extends React.Component<any, appState> {
+class Sorting extends React.Component<any, appState> {
     componentDidMount() {
         // runs once the component has been loaded
         this.makeBars();
@@ -266,4 +235,4 @@ class App extends React.Component<any, appState> {
     }
 }
 
-export default App;
+export default Sorting;

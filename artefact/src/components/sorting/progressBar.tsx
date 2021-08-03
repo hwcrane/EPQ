@@ -1,5 +1,5 @@
 import React, { CSSProperties } from "react";
-import { progressBarProps } from "./types";
+import { progressBarProps } from "../../types";
 
 // component for the progress bar of the visuliser
 export default class ProgressBar extends React.Component<progressBarProps> {

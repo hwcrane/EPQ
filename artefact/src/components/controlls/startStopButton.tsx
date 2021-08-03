@@ -1,5 +1,5 @@
 import React from "react";
-import { startStopProps } from "./types";
+import { startStopProps } from "../../types";
 
 export default class StartStopButton extends React.Component<startStopProps> {
     // calls the togglePlayState method in the App class

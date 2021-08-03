@@ -1,6 +1,6 @@
 import React from "react";
 import { CSSProperties } from "react";
-import { barProps } from "./types";
+import { barProps } from "../../types";
 
 // React element for the bars
 export const Bar = (props: barProps) => {
