@@ -1,20 +1,22 @@
 .navBar {
-    width: 100vw;
-    height: 4rem;
+    width: 4rem;
+    height: 100vh;
     background: rgb(49, 49, 49);
     display: flex;
     align-items: center;
-    justify-content: space-around;
+
+    flex-direction: column;
 }
 
 .menuIcon {
-    width: 2rem;
+    width: 1.3rem;
     color: rgb(112, 112, 112);
-    padding-left: 2rem;
 }
 
 .navbarItem {
     color: aliceblue;
     display: flex;
     justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
 }
