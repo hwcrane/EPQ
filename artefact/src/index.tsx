@@ -6,21 +6,26 @@ import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Home from "./components/Home";
 import Searching from "./components/searching/Searching";
 import Pathfinding from "./components/pathfinding/Pathfinding";
+import NavBar from "./components/navigation/navBar";
 
 ReactDOM.render(
     <React.StrictMode>
         <Router>
             <Route exact path="/">
-                <Home></Home>
+                <NavBar page="home" />
+                <Home />
             </Route>
             <Route path="/sorting">
-                <Sorting></Sorting>
+                <NavBar page="sorting" />
+                <Sorting />
             </Route>
             <Route path="/searching">
-                <Searching></Searching>
+                <NavBar page="searching" />
+                <Searching />
             </Route>
             <Route path="/pathfinding">
-                <Pathfinding></Pathfinding>
+                <NavBar page="pathfinding" />
+                <Pathfinding />
             </Route>
         </Router>
     </React.StrictMode>,

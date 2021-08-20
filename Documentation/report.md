@@ -1271,3 +1271,586 @@ export default class NumOBarsSelector extends React.Component<numOBarsSelectorPr
     }
 }
 ```
+
+I then moved the `BarContainer` and `Metrics` components into their own files. After that, I re-named the `App` component and file to be `Sorting`. I then made some blank components for the home, searching and pathfinding pages. All of the files containing components were then moved into a new file named `components`. This is now what the folder structure of my src folder is like:
+
+```
+src
+├── App.css
+├── algorithms.ts
+├── components
+│   ├── Home.tsx
+│   ├── Pathfinding.tsx
+│   ├── Searching.tsx
+│   ├── Sorting.tsx
+│   ├── algoritmSelector.tsx
+│   ├── backButton.tsx
+│   ├── bar.tsx
+│   ├── barContainer.tsx
+│   ├── description.tsx
+│   ├── forwardButton.tsx
+│   ├── metrics.tsx
+│   ├── numOBarsSelector.tsx
+│   ├── progressBar.tsx
+│   ├── resetButton.tsx
+│   ├── speedSelector.tsx
+│   └── startStopButton.tsx
+├── index.css
+├── index.tsx
+├── react-app-env.d.ts
+└── types.ts
+```
+
+### Routing
+
+So far, my application has only been one page. However, For the final product, it will require multiple pages. I will achieve this using the `react-router-dom` module. This was then used to set up multiple routes for the application, With each one linking to the relevant component. This was all done inside the `index.tsx` file, which now looks like this:
+
+```tsx
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import Sorting from "./components/Sorting";
+import { Route, Link, BrowserRouter as Router } from "react-router-dom";
+import Home from "./components/Home";
+import Searching from "./components/Searching";
+import Pathfinding from "./components/Pathfinding";
+
+ReactDOM.render(
+    <React.StrictMode>
+        <Router>
+            <Route exact path="/">
+                <Home></Home>
+            </Route>
+            <Route path="/sorting">
+                <Sorting></Sorting>
+            </Route>
+            <Route path="/searching">
+                <Searching></Searching>
+            </Route>
+            <Route path="/pathfinding">
+                <Pathfinding></Pathfinding>
+            </Route>
+        </Router>
+    </React.StrictMode>,
+    document.getElementById("root")
+);
+```
+
+### Further file management
+
+To increase the ease of development, I subdivided my `components` folder into more folders to store the different components. There is a folder for each of the respective visualisers and folders to contain the controls, navigation, and info components. The file structure now looks like this:
+
+```
+src
+├── algorithms.ts
+├── App.css
+├── components
+│   ├── controlls
+│   │   ├── algoritmSelector.tsx
+│   │   ├── backButton.tsx
+│   │   ├── forwardButton.tsx
+│   │   ├── numOBarsSelector.tsx
+│   │   ├── resetButton.tsx
+│   │   ├── speedSelector.tsx
+│   │   └── startStopButton.tsx
+│   ├── Home.tsx
+│   ├── info
+│   │   ├── description.tsx
+│   │   └── metrics.tsx
+│   ├── navigation
+│   ├── pathfinding
+│   │   └── Pathfinding.tsx
+│   ├── searching
+│   │   └── Searching.tsx
+│   └── sorting
+│       ├── barContainer.tsx
+│       ├── bar.tsx
+│       ├── progressBar.tsx
+│       └── Sorting.tsx
+├── index.css
+├── index.tsx
+├── react-app-env.d.ts
+└── types.ts
+```
+
+### Navigation UI
+
+Now that all the parts of the sorting visualiser have been created, it is time for visual styling. For the colour scheme, I have decided to use the [Nord](https://www.nordtheme.com/) pallet. Therefore, to start with, I need to define the colours. I created a file named `colours.css` which contains:
+
+```css
+:root {
+    --nord0: #2e3440;
+    --nord1: #3b4252;
+    --nord2: #434c5e;
+    --nord3: #4c566a;
+    --nord4: #d8dee9;
+    --nord5: #e5e9f0;
+    --nord6: #eceff4;
+    --nord7: #8fbcbb;
+    --nord8: #8fbcbb;
+    --nord9: #88c0d0;
+    --nord10: #81a1c1;
+    --nord11: #bf616a;
+    --nord12: #d08770;
+    --nord13: #ebcb8b;
+    --nord14: #a3be8c;
+    --nord15: #b48ead;
+    --nord16: #242933;
+}
+```
+
+These colours can now be imported into any other CSS file in the project.
+
+### Navigation bar
+
+A navigation bar, often referred to as a navbar, is used in applications to switch between pages. I have drawn up a plan of how the navbar will look:
+
+<img src="./assets/navbarmockup.svg">
+
+The navbar will be made up of three components: one for the navbar itself, one for the label of the website's name, and one for the links to each of the pages to the applications. For the icons in the navbar, I will be using (Font Awsome)[https://fontawesome.com/].
+
+First, I created three new files: `navBar.tsx`, `navLink.tsx`, `navTitle.tsx`, and `navBar.css`. `navBar.tsx` contains the NavBar component, which contains two `navParts`, one for the title and one for the links. They are grouped this way so that they can be responsively spaced out based on the screen size. Each NavLink is passed in five properties, the icon to show, the text to show,if it links to the current page, where to link to, and how much to rotate the icon. The icon rotation is required as the logo for sorting needs to be rotated.
+
+Here is the code inside `navBar.tsx`:
+
+```tsx
+import React from "react";
+import "./navBar.css";
+import NavLink from "./navLink";
+import NavTitle from "./navTitle";
+import {
+    faHome,
+    faSortAmountDownAlt,
+    faSearch,
+    faRoute,
+} from "@fortawesome/free-solid-svg-icons";
+import { navBarProps } from "../../types";
+
+// component for the nav bar
+export default class NavBar extends React.Component<navBarProps> {
+    render() {
+        return (
+            <nav className="navBar">
+                <div className="navPart">
+                    <NavTitle />
+                </div>
+                {/* links are wrapped inside a container div so that they are kept together */}
+                <div className="navPart">
+                    <NavLink
+                        icon={faHome}
+                        text="Home"
+                        current={this.props.page == "home"}
+                        linkTo=""
+                    ></NavLink>
+                    <NavLink
+                        icon={faSortAmountDownAlt}
+                        text="Sorting"
+                        current={this.props.page == "sorting"}
+                        iconRotation={270}
+                        linkTo="sorting"
+                    ></NavLink>
+                    <NavLink
+                        icon={faSearch}
+                        text="Searching"
+                        current={this.props.page == "searching"}
+                        linkTo="searching"
+                    ></NavLink>
+                    <NavLink
+                        icon={faRoute}
+                        text="Pathfinding"
+                        current={this.props.page == "pathfinding"}
+                        linkTo="pathfinding"
+                    ></NavLink>
+                </div>
+            </nav>
+        );
+    }
+}
+```
+
+`navLink.tsx`:
+
+```tsx
+import React from "react";
+import "./navBar.css";
+import { Link } from "react-router-dom";
+import { navLinkProps } from "../../types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// component for the navbar links
+
+export default class NavLink extends React.Component<navLinkProps> {
+    render() {
+        var extraclass = "";
+        if (this.props.current) {
+            // if link set to current, the selected class will be assigned to it, this gives it a diferent text colour and background
+            extraclass = "selected";
+        }
+        return (
+            <Link
+                to={this.props.linkTo}
+                className={"navItem navLink " + extraclass}
+            >
+                <FontAwesomeIcon
+                    icon={this.props.icon}
+                    rotation={this.props.iconRotation}
+                    className="icon"
+                />
+
+                {this.props.text}
+            </Link>
+        );
+    }
+}
+```
+
+`navTitle.tsx`:
+
+```tsx
+import React from "react";
+import "./navBar.css";
+
+// component for the navbar title
+export default class NavTitle extends React.Component {
+    render() {
+        return <div className="navItem navTitle">Algorithm Visuliser</div>;
+    }
+}
+```
+
+and `navBar.css`
+
+```css
+@import "../../colours.css";
+
+.navBar {
+    width: 100vw;
+    height: 4rem;
+    background: var(--nord0);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.navPart {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: inherit;
+}
+
+.navItem {
+    color: var(--nord4);
+    height: 70%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20rem;
+}
+
+.navLink {
+    text-decoration: none;
+    transition: background 200ms;
+}
+
+.navLink:hover {
+    background: var(--nord2);
+}
+
+.selected {
+    background: var(--nord1);
+    color: var(--nord9);
+}
+
+.navTitle {
+    margin-right: auto;
+    font-size: 1.5rem;
+}
+
+.icon {
+    padding-right: 0.5rem;
+}
+```
+
+I have inserted it before each page in the browser router inside `index.tsx` to display the navbar:
+
+```tsx
+ReactDOM.render(
+    <React.StrictMode>
+        <Router>
+            <Route exact path="/">
+                <NavBar page="home" />
+                <Home />
+            </Route>
+            <Route path="/sorting">
+                <NavBar page="sorting" />
+                <Sorting />
+            </Route>
+            <Route path="/searching">
+                <NavBar page="searching" />
+                <Searching />
+            </Route>
+            <Route path="/pathfinding">
+                <NavBar page="pathfinding" />
+                <Pathfinding />
+            </Route>
+        </Router>
+    </React.StrictMode>,
+    document.getElementById("root")
+);
+```
+
+All of that put together now makes the sorting page look like this:
+
+<img src="./Assets/2021-08-20 15-22-01.png" />
+
+### Mobile Navbar
+
+Although I have already made the navbar for this application, the issue with it is that it does not work on mobile devices. Here is an example using the chrome developer tools in order to simulate a mobile device:
+
+<img src="./Assets/2021-08-20 15-33-56.png" />
+
+Websites fix this scaling issue by replacing the navigation buttons with a dropdown menu once the screen reaches a specific size.
+
+To start off with, I created a new file named `navWaffle.tsx`, where I will store the code for the dropdown button. when this button is clicked, it will toggle a variable named `menuActive` inside the state of the navbar. Here is the code for the button and the modified code in the navbar:
+
+```tsx
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { waffleProps } from "../../types";
+
+export default class NavWaffle extends React.Component<waffleProps> {
+    toggleMenu = () => {
+        this.props.toggleMenu();
+    };
+
+    render() {
+        return (
+            <button className="waffle" onClick={() => this.toggleMenu()}>
+                <FontAwesomeIcon icon={faBars} size="2x" />
+            </button>
+        );
+    }
+}
+```
+
+```tsx
+/ component for the nav bar
+export default class NavBar extends React.Component<navBarProps, navBarState> {
+    state = {
+        menuActive: false,
+    };
+
+    toggleMenu = () => {
+        console.log("test");
+        this.setState((prevstate) => ({
+            menuActive: !prevstate.menuActive,
+        }));
+    };
+
+    render() {
+        return (
+            <nav className="navBar">
+                <div className="navPart">
+                    <NavTitle />
+                </div>
+                {/* links are wrapped inside a container div so that they are kept together */}
+                <div className="navPart">
+                    <NavLink
+                        icon={faHome}
+                        text="Home"
+                        current={this.props.page == "home"}
+                        linkTo=""
+                    ></NavLink>
+                    <NavLink
+                        icon={faSortAmountDownAlt}
+                        text="Sorting"
+                        current={this.props.page == "sorting"}
+                        iconRotation={270}
+                        linkTo="sorting"
+                    ></NavLink>
+                    <NavLink
+                        icon={faSearch}
+                        text="Searching"
+                        current={this.props.page == "searching"}
+                        linkTo="searching"
+                    ></NavLink>
+                    <NavLink
+                        icon={faRoute}
+                        text="Pathfinding"
+                        current={this.props.page == "pathfinding"}
+                        linkTo="pathfinding"
+                    ></NavLink>
+                </div>
+                <NavWaffle toggleMenu={this.toggleMenu} />
+            </nav>
+        );
+    }
+}
+```
+
+Next, I need to show a dropdown once the button is pressed. This is achieved inside `navDropdown.tsx`, where it only shows when `menuActive` is set to true. here is the code for the dropdown component:
+
+```tsx
+import React from "react";
+import {
+    faHome,
+    faSortAmountDownAlt,
+    faSearch,
+    faRoute,
+} from "@fortawesome/free-solid-svg-icons";
+import NavDropdownLink from "./navDropdownLink";
+import { navDropdownProps } from "../../types";
+
+export default class NavDropdown extends React.Component<navDropdownProps> {
+    render() {
+        var extraClass = "dropdownHidden";
+        if (this.props.menuActive) {
+            extraClass = "dropdownShow";
+        }
+        return (
+            <div className={"navDropdown " + extraClass}>
+                <NavDropdownLink
+                    icon={faHome}
+                    text="Home"
+                    current={this.props.page == "home"}
+                    linkTo=""
+                ></NavDropdownLink>
+                <NavDropdownLink
+                    icon={faSortAmountDownAlt}
+                    text="Sorting"
+                    current={this.props.page == "sorting"}
+                    iconRotation={270}
+                    linkTo="sorting"
+                ></NavDropdownLink>
+                <NavDropdownLink
+                    icon={faSearch}
+                    text="Searching"
+                    current={this.props.page == "searching"}
+                    linkTo="searching"
+                ></NavDropdownLink>
+                <NavDropdownLink
+                    icon={faRoute}
+                    text="Pathfinding"
+                    current={this.props.page == "pathfinding"}
+                    linkTo="pathfinding"
+                ></NavDropdownLink>
+            </div>
+        );
+    }
+}
+```
+
+and here is the code for the `NavDropdownLink` inside `navDropdownLink.tsx`:
+
+```tsx
+import React from "react";
+import "./navBar.css";
+import { Link } from "react-router-dom";
+import { navDropdownLinkProps } from "../../types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+// component for the navbar links
+
+export default class NavDropdownLink extends React.Component<navDropdownLinkProps> {
+    render() {
+        var extraclass = "dropdownLinkUnselected";
+        if (this.props.current) {
+            // if link set to current, the selected class will be assigned to it, this gives it a diferent text colour and background
+            extraclass = "dropdownLinkSelected";
+        }
+        return (
+            <Link
+                to={this.props.linkTo}
+                className={"navDropdownLink " + extraclass}
+            >
+                <FontAwesomeIcon
+                    icon={this.props.icon}
+                    rotation={this.props.iconRotation}
+                    className="icon"
+                />
+
+                {this.props.text}
+            </Link>
+        );
+    }
+}
+```
+
+finally, the CSS styling for the dropdown:
+
+```css
+.waffle {
+    color: var(--nord4);
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: none;
+}
+
+.waffle:hover {
+    background: var(--nord2);
+}
+
+.navDropdown {
+    height: 50%;
+    padding-bottom: 100%;
+    width: 100vw;
+    z-index: 100;
+    margin-top: 4rem;
+    background: var(--nord0);
+    position: fixed;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.navDropdownLink {
+    text-decoration: none;
+    font-size: 150%;
+    padding: 1rem;
+    background: var(--nord16);
+    border-radius: 10rem;
+}
+
+.dropdownHidden {
+    height: 0;
+    padding: 0;
+}
+
+.dropdownLinkUnselected {
+    color: var(--nord4);
+}
+
+.dropdownLinkSelected {
+    color: var(--nord9);
+}
+
+@media screen and (max-width: 768px) {
+    .waffle {
+        display: inline;
+    }
+    .navLink {
+        display: none;
+    }
+}
+```
+
+By default, the waffle button is disabled. However, once the device width is less than 768px (mobile size), the navbar links are hidden, and the waffle button is shown. This is what the application now looks like on a mobile device, with the dropdown menu active.
+
+<img src="./Assets/2021-08-20 22-56-48.png" />

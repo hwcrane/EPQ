@@ -3,7 +3,7 @@ import "../../App.css";
 import SpeedSelector from "../controlls/speedSelector";
 import { bubble } from "../../algorithms";
 import { appState, bar, stage } from "../../types";
-import Description from "../description";
+import Description from "../info/description";
 import ProgressBar from "./progressBar";
 import AlgoritmSelector from "../controlls/algoritmSelector";
 import BackButton from "../controlls/backButton";
@@ -12,7 +12,7 @@ import ForwardButton from "../controlls/forwardButton";
 import ResetButton from "../controlls/resetButton";
 import NumOBarsSelector from "../controlls/numOBarsSelector";
 import { BarContainer } from "./barContainer";
-import { Metrics } from "../metrics";
+import { Metrics } from "../info/metrics";
 
 // function for creating a delay
 const pause = (time: number) => {

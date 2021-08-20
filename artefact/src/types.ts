@@ -1,3 +1,5 @@
+import { IconDefinition, RotateProp } from "@fortawesome/fontawesome-svg-core";
+
 // types for the stage
 export interface stage {
     bars: bar[];
@@ -83,7 +85,44 @@ export interface barProps {
     state: barState;
 }
 
+// props for the progress bar container
 export interface progressBarProps {
     stage: number;
     max: number;
+}
+
+// props for the navbar links
+export interface navLinkProps {
+    icon: IconDefinition;
+    text: string;
+    current: boolean;
+    iconRotation?: RotateProp;
+    linkTo: string;
+}
+
+type page = "home" | "sorting" | "searching" | "pathfinding";
+// props for the navbar
+export interface navBarProps {
+    page: page;
+}
+
+export interface waffleProps {
+    toggleMenu: () => void;
+}
+
+export interface navBarState {
+    menuActive: boolean;
+}
+
+export interface navDropdownProps {
+    menuActive: boolean;
+    page: page;
+}
+
+export interface navDropdownLinkProps {
+    icon: IconDefinition;
+    text: string;
+    current: boolean;
+    iconRotation?: RotateProp;
+    linkTo: string;
 }

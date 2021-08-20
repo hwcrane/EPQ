@@ -1,3 +1,5 @@
+@import "./colours.css";
+
 .barContainer {
     width: 80vw;
     height: 20rem;
