@@ -1,7 +1,7 @@
 {
   "name": "artefact",
   "version": "0.1.0",
-  "homepage": "https://hwcrane.github.io/epq/",
+  "homepage": "https://hwcrane.github.io/EPQ/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
