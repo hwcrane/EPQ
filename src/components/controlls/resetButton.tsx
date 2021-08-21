@@ -1,3 +1,5 @@
+import { faRandom } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { resetButtonProps } from "../../types";
 
@@ -9,10 +11,10 @@ export default class ResetButton extends React.Component<resetButtonProps> {
     render() {
         return (
             <button // reset button
-                className="reset"
+                className="reset controlButton"
                 onClick={() => this.reset()}
             >
-                Reset
+                <FontAwesomeIcon size="2x" icon={faRandom} />
             </button>
         );
     }

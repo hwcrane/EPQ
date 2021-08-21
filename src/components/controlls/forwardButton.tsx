@@ -1,3 +1,5 @@
+import { faStepForward } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { stepForwardProps } from "../../types";
 
@@ -10,10 +12,10 @@ export default class ForwardButton extends React.Component<stepForwardProps> {
     render() {
         return (
             <button // step forward button
-                className="forward"
+                className="forward controlButton"
                 onClick={() => this.stepForward()}
             >
-                forward
+                <FontAwesomeIcon size="2x" icon={faStepForward} />
             </button>
         );
     }

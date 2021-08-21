@@ -8,16 +8,16 @@ export const Bar = (props: barProps) => {
         props.state // bar colour determined from state
     ) {
         case "unsorted":
-            var col = "grey";
+            var col = "var(--nord10)";
             break;
         case "sorted":
-            var col = "green";
+            var col = "var(--nord14)";
             break;
         case "selected":
-            var col = "red";
+            var col = "var(--nord11)";
             break;
         case "pivot":
-            var col = "purple";
+            var col = "var(--nord15)";
             break;
     }
 

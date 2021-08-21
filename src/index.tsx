@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import Sorting from "./components/sorting/Sorting";
-import { Route, Link, HashRouter as Router } from "react-router-dom";
+import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Home from "./components/Home";
 import Searching from "./components/searching/Searching";
 import Pathfinding from "./components/pathfinding/Pathfinding";
@@ -10,7 +10,7 @@ import NavBar from "./components/navigation/navBar";
 
 ReactDOM.render(
     <React.StrictMode>
-        <Router>
+        <Router basename={process.env.PUBLIC_URL}>
             <Route exact path="/">
                 <NavBar page="home" />
                 <Home />

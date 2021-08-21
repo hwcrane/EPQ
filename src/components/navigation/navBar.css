@@ -3,13 +3,14 @@
 .navBar {
     width: 100vw;
     height: 4rem;
-    background: var(--nord0);
+    background: var(--nord16);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     z-index: 500;
-    position: sticky;
+    position: fixed;
+    top: 0;
 }
 
 .navPart {
@@ -40,11 +41,11 @@
 }
 
 .navLink:hover {
-    background: var(--nord2);
+    background: var(--nord1);
 }
 
 .selected {
-    background: var(--nord1);
+    background: var(--nord0);
     color: var(--nord9);
 }
 

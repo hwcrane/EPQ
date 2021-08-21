@@ -20,7 +20,7 @@ export default class SpeedSelector extends React.Component<speedSelectorProps> {
 
     public render() {
         return (
-            <div className="controls">
+            <div className="speedSelectorContainer">
                 Speed:
                 <input // speed range
                     type="range"

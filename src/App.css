@@ -1,33 +1,161 @@
 @import "./colours.css";
 
+.App {
+    box-sizing: border-box;
+    padding-top: 5rem;
+    background: var(--nord16);
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: max-content;
+    grid-gap: 1rem;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-bottom: 1rem;
+}
+
 .barContainer {
-    width: 80vw;
     height: 20rem;
-    background: black;
-    margin: auto;
+    background: var(--nord0);
     display: flex;
     align-items: flex-end;
     justify-content: center;
 }
 
 .bar {
-    background: gray;
     width: 5rem;
     margin: 2px;
 }
 
 .description {
-    background: gray;
 }
 
 .outerProgressBar {
-    width: 80vw;
     height: 1rem;
-    background: grey;
-    margin: auto;
+    background: var(--nord1);
 }
 
 .innerProgressBar {
     height: 100%;
-    background: blue;
+    background: var(--nord10);
+}
+
+.container {
+    box-sizing: border-box;
+
+    padding: 1rem;
+    background: var(--nord0);
+
+    border-radius: 2rem;
+}
+
+.visuliserContainer {
+    grid-column-start: 1;
+    grid-column-end: 4;
+
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.setupControls {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.liveControls {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+.backButton {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.startstop {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+.speedSelectorContainer {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    width: 100%;
+}
+
+.metrics {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.descriptionContainer {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.bar:first-child {
+    margin-left: 0;
+}
+
+.bar:last-child {
+    margin-right: 0;
+}
+
+.controlButton {
+    border: none;
+    outline: none;
+    background: var(--nord1);
+    color: var(--nord4);
+    border-radius: 1rem;
+    padding: 0.5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .App {
+        grid-template-columns: 100%;
+    }
+
+    .bar {
+        margin: 1px;
+    }
+    .barContainer {
+        height: 15rem;
+    }
+    .visuliserContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    .liveControls {
+        grid-row-start: 2;
+        grid-row-end: 3;
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    .setupControls {
+        grid-row-start: 3;
+        grid-row-end: 4;
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+    .metrics {
+        grid-row-start: 4;
+        grid-row-end: 5;
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+    .descriptionContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
 }

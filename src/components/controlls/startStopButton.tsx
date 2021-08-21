@@ -1,3 +1,5 @@
+import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { startStopProps } from "../../types";
 
@@ -8,15 +10,15 @@ export default class StartStopButton extends React.Component<startStopProps> {
     };
 
     render() {
-        var buttonlbl: string;
+        var buttonlbl: JSX.Element;
         if (this.props.isRunning) {
-            buttonlbl = "stop";
+            buttonlbl = <FontAwesomeIcon size="2x" icon={faPause} />;
         } else {
-            buttonlbl = "start";
+            buttonlbl = <FontAwesomeIcon size="2x" icon={faPlay} />;
         }
         return (
             <button // start stop button
-                className="startstop"
+                className="startstop controlButton"
                 onClick={() => this.togglePlayState()}
             >
                 {buttonlbl}

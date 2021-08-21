@@ -204,32 +204,48 @@ class Sorting extends React.Component<any, appState> {
     render() {
         return (
             <div className="App">
-                <BarContainer
-                    bars={this.state.bars}
-                    maxSize={this.state.numOBars}
-                />
-                <ProgressBar
-                    stage={this.state.sortingStage}
-                    max={this.state.sortingStages.length}
-                />
-                <AlgoritmSelector
-                    setAlgorithm={this.setAlgorithm}
-                    algorithms={this.state.algorithms}
-                />
-                <BackButton stepBackward={this.stepBackward} />
-                <StartStopButton
-                    isRunning={this.state.isRunning}
-                    togglePlayState={this.togglePlayState}
-                />
-                <ForwardButton stepForward={this.stepForward} />
-                <ResetButton reset={this.makeBars} />
-                <NumOBarsSelector makeBars={this.makeBars} />
-                <SpeedSelector setSpeed={this.setSpeed} />
-                <Metrics
-                    swaps={this.state.swaps}
-                    comparisons={this.state.comparisons}
-                />
-                <Description selectedAlgorithm={this.state.selectedAlgorithm} />
+                <div className="container visuliserContainer">
+                    <BarContainer
+                        bars={this.state.bars}
+                        maxSize={this.state.numOBars}
+                    />
+                    <ProgressBar
+                        stage={this.state.sortingStage}
+                        max={this.state.sortingStages.length}
+                    />
+                </div>
+
+                <div className="container setupControls">
+                    <AlgoritmSelector
+                        setAlgorithm={this.setAlgorithm}
+                        algorithms={this.state.algorithms}
+                    />
+                    <NumOBarsSelector makeBars={this.makeBars} />
+                </div>
+
+                <div className="container liveControls">
+                    <BackButton stepBackward={this.stepBackward} />
+                    <StartStopButton
+                        isRunning={this.state.isRunning}
+                        togglePlayState={this.togglePlayState}
+                    />
+                    <ForwardButton stepForward={this.stepForward} />
+                    <ResetButton reset={this.makeBars} />
+                    <SpeedSelector setSpeed={this.setSpeed} />
+                </div>
+
+                <div className="container metrics">
+                    <Metrics
+                        swaps={this.state.swaps}
+                        comparisons={this.state.comparisons}
+                    />
+                </div>
+
+                <div className="container descriptionContainer">
+                    <Description
+                        selectedAlgorithm={this.state.selectedAlgorithm}
+                    />
+                </div>
             </div>
         );
     }
