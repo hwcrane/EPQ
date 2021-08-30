@@ -13,6 +13,7 @@ import ResetButton from "../controlls/resetButton";
 import NumOBarsSelector from "../controlls/numOBarsSelector";
 import { BarContainer } from "./barContainer";
 import { Metrics } from "../info/metrics";
+import ColourInfo from "../info/colourInfo";
 
 // function for creating a delay
 const pause = (time: number) => {
@@ -234,11 +235,12 @@ class Sorting extends React.Component<any, appState> {
                     <SpeedSelector setSpeed={this.setSpeed} />
                 </div>
 
-                <div className="container metrics">
+                <div className="container metricsContainer">
                     <Metrics
                         swaps={this.state.swaps}
                         comparisons={this.state.comparisons}
                     />
+                    <ColourInfo />
                 </div>
 
                 <div className="container descriptionContainer">

@@ -6,7 +6,6 @@ export const Metrics = (props: metricsProps) => {
     return (
         <div className="metrics">
             <span>Comparisons: {props.comparisons}</span>
-            <br />
             <span>Swaps: {props.swaps}</span>
         </div>
     );

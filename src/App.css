@@ -91,10 +91,19 @@
 }
 
 .metrics {
+    color: var(--nord4);
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.metricsContainer {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .descriptionContainer {
@@ -119,13 +128,38 @@
     padding: 0.5rem;
 }
 
+.colourBox {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    border-radius: 100%;
+}
+
+.ColourList {
+    margin: 0;
+    padding: 0;
+}
+
+.colourItem {
+    display: flex;
+    color: var(--nord4);
+    align-items: center;
+    font-size: 1.5rem;
+}
 @media screen and (max-width: 768px) {
     .App {
         grid-template-columns: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
-
+    .colourItem {
+        font-size: 1rem;
+    }
+    .metrics {
+        font-size: 1rem;
+    }
     .bar {
-        margin: 1px;
+        margin: 0.5px;
     }
     .barContainer {
         height: 15rem;
@@ -148,7 +182,7 @@
         grid-column-start: 1;
         grid-column-end: 2;
     }
-    .metrics {
+    .metricsContainer {
         grid-row-start: 4;
         grid-row-end: 5;
         grid-column-start: 1;
