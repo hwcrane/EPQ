@@ -28,9 +28,6 @@
     transition: height 200ms ease;
 }
 
-.description {
-}
-
 .outerProgressBar {
     height: 1rem;
     background: var(--nord1);
