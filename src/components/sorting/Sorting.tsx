@@ -209,6 +209,7 @@ class Sorting extends React.Component<any, appState> {
                     <BarContainer
                         bars={this.state.bars}
                         maxSize={this.state.numOBars}
+                        speed={this.state.speed}
                     />
                     <ProgressBar
                         stage={this.state.sortingStage}

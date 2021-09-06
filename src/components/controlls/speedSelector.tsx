@@ -23,6 +23,7 @@ export default class SpeedSelector extends React.Component<speedSelectorProps> {
             <div className="speedSelectorContainer">
                 Speed:
                 <input // speed range
+                    className="speedSelector"
                     type="range"
                     ref={this.speed} // linking to the speed ref element
                     onChange={() => this.setSpeed()} // call the setSpeed method whenever the value of the range is changed

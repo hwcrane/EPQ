@@ -25,6 +25,7 @@
 .bar {
     width: 5rem;
     margin: 2px;
+    transition: height 200ms ease;
 }
 
 .description {
@@ -85,9 +86,29 @@
     grid-column-end: 4;
 }
 .speedSelectorContainer {
-    grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-start: 2;
+    grid-column-end: 6;
     width: 100%;
+    color: var(--nord4);
+    font-size: 1.5rem;
+}
+
+.speedSelector {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 1rem;
+    background: var(--nord1);
+    border-radius: 1rem;
+    cursor: pointer;
+}
+
+.speedSelector::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2rem;
+    width: 1rem;
+    border-radius: 1rem;
+    background: var(--nord3);
 }
 
 .metrics {

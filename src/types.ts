@@ -1,4 +1,5 @@
 import { IconDefinition, RotateProp } from "@fortawesome/fontawesome-svg-core";
+import internal from "stream";
 
 // types for the stage
 export interface stage {
@@ -46,6 +47,7 @@ export interface resetButtonProps {
 export interface barContainerProps {
     bars: Array<any>;
     maxSize: number;
+    speed: number;
 }
 
 // interface for the props passed into the metrics element
@@ -83,6 +85,7 @@ export interface barProps {
     maxSize: number;
     key: number;
     state: barState;
+    speed: number;
 }
 
 // props for the progress bar container

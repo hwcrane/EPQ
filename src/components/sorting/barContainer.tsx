@@ -15,6 +15,7 @@ export const BarContainer = (props: barContainerProps) => {
                         maxSize={props.maxSize}
                         key={props.bars.indexOf(bar)}
                         state={bar.state}
+                        speed={props.speed}
                     />
                 )
             )}
