@@ -1,0 +1,24 @@
+@import '../../colours.css';
+
+.metrics {
+    color: var(--nord4);
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.metricsContainer {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.descriptionContainer {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    color: var(--nord4);
+}
+

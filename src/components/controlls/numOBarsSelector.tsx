@@ -16,7 +16,7 @@ export default class NumOBarsSelector extends React.Component<numOBarsSelectorPr
 
     render() {
         return (
-            <div>
+            <div className = "numOfBarsSelectorContainer">
                 Number of Bars :
                 <input // bat range
                     type="range"
@@ -24,6 +24,7 @@ export default class NumOBarsSelector extends React.Component<numOBarsSelectorPr
                     onChange={() => this.makeBars()} // call the `makeBars` method whenever the value of the range is changed
                     min={5}
                     max={200}
+                    className = "numOfBarsSelector"
                 />
             </div>
         );

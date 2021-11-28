@@ -1,7 +1,6 @@
 import React from "react";
-import "../../App.css";
 import SpeedSelector from "../controlls/speedSelector";
-import { bubble } from "../../algorithms";
+import { bubble, quick } from "../../algorithms";
 import { appState, bar, stage } from "../../types";
 import Description from "../info/description";
 import ProgressBar from "./progressBar";
@@ -99,6 +98,12 @@ class Sorting extends React.Component<any, appState> {
                 sortingStages = bubble(
                     JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
                 );
+                break;
+            case "Quick Sort":
+                sortingStages = quick(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+                break;
         }
         this.setState({
             sortingStages: sortingStages,
