@@ -107,4 +107,14 @@
         grid-column-start: 1;
         grid-column-end: 2;
     }
+
+    .metricsContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+    .descriptionContainer {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+    
 }

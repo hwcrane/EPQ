@@ -72,11 +72,6 @@ export const quick = (bars: bar[]): stage[] => {
     var stages: stage[] = [];
     var comparisons = 0;
     var swaps = 0;
-    stages.push({
-        bars: JSON.parse(JSON.stringify(bars)),
-        swaps: swaps,
-        comparisons: comparisons,
-    }); // push first stage to array
 
     var [nextstages, swaps, comparisons] = quickSort(bars, swaps, comparisons, 0, bars.length)
     stages = stages.concat(nextstages);
