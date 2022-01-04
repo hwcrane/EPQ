@@ -1,5 +1,4 @@
 import { bar, stage } from "./types";
-// type for bar state
 
 export const bubble = (bars: bar[]): stage[] => {
     var stages: stage[] = [];
@@ -86,7 +85,6 @@ export const quick = (bars: bar[]): stage[] => {
     return stages;
 }
 
-
 const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number, last: number): [stage[], number, number] => {
     var stages: stage[] = [];
     if (last - first <= 1) {
@@ -150,4 +148,89 @@ const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number
     
     return [stages, swaps, comparisons];
 
+}
+
+export const insertion = (bars: bar[]): stage[] => {
+    var stages: stage[] = [];
+    var comparisons = 0;
+    var swaps = 0;
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+
+    for (var i = 1; i < bars.length; i++) {
+        for (var j = i; j > 0; j--) {
+            bars[j].state = "selected";
+            bars[j - 1].state = "selected";
+            comparisons++;
+            stages.push({
+                bars: JSON.parse(JSON.stringify(bars)),
+                swaps: swaps,
+                comparisons: comparisons,
+            }); // push first stage to array
+            if (bars[ j - 1 ].size > bars[ j ].size ){
+                swaps++;
+                [bars[j], bars[j - 1]] = [bars[j - 1], bars[j]]; // swaps elements
+                stages.push({
+                    bars: JSON.parse(JSON.stringify(bars)),
+                    swaps: swaps,
+                    comparisons: comparisons,
+                }); // push first stage to array
+                bars[j].state = "sorted";
+                bars[j - 1].state = "sorted";
+            } else {
+                bars[j].state = "sorted";
+            bars[j - 1].state = "sorted";
+                break;
+            }
+            
+        }
+    }
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+    return stages;
+}
+
+export const merge = (bars: bar[]): stage[] => {
+    var stages: stage[] = [];
+    var comparisons = 0;
+    var swaps = 0;
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+
+    return stages;
+}
+
+export const selection = (bars: bar[]): stage[] => {
+    var stages: stage[] = [];
+    var comparisons = 0;
+    var swaps = 0;
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+
+    return stages;
+}
+
+export const heap = (bars: bar[]): stage[] => {
+    var stages: stage[] = [];
+    var comparisons = 0;
+    var swaps = 0;
+    stages.push({
+        bars: JSON.parse(JSON.stringify(bars)),
+        swaps: swaps,
+        comparisons: comparisons,
+    }); // push first stage to array
+
+    return stages;
 }

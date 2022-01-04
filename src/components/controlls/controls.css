@@ -1,7 +1,7 @@
 @import '../../colours.css';
 
 .algorithmSelect{
-    width: 20rem;
+    width: 100%;
     grid-column-start: 2;
     grid-column-end: 3;
 }
@@ -39,7 +39,7 @@
     grid-row-end: 3;
 
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr ;
+    grid-template-columns: 1fr 4fr 1fr ;
     grid-gap: 1rem;
 }
 

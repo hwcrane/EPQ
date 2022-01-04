@@ -1,6 +1,6 @@
 import React from "react";
 import SpeedSelector from "../controlls/speedSelector";
-import { bubble, quick } from "../../algorithms";
+import { bubble, heap, insertion, merge, quick, selection } from "../../algorithms";
 import { appState, bar, stage } from "../../types";
 import Description from "../info/description";
 import ProgressBar from "./progressBar";
@@ -36,8 +36,6 @@ class Sorting extends React.Component<any, appState> {
             "Merge Sort",
             "Selection Sort",
             "Heap Sort",
-            "Radix Sort",
-            "Bucket Sort",
         ],
         isRunning: false,
         sortingStages: [],
@@ -101,6 +99,26 @@ class Sorting extends React.Component<any, appState> {
                 break;
             case "Quick Sort":
                 sortingStages = quick(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+                break;
+            case "Insertion Sort":
+                sortingStages = insertion(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+                break;
+            case "Merge Sort":
+                sortingStages = merge(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+                break;
+            case "Selection Sort":
+                sortingStages = selection(
+                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
+                );
+                break;
+            case "Heap Sort":
+                sortingStages = heap(
                     JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
                 );
                 break;
