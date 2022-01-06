@@ -88,6 +88,14 @@
     border-radius: 1rem;
     background: var(--nord3);
 }
+.metricsContainer {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 
 @media screen and (max-width: 768px) {
     .liveControls {
