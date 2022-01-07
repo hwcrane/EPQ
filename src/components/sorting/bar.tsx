@@ -25,7 +25,7 @@ export const Bar = (props: barProps) => {
     var style: CSSProperties = {
         height: ((props.size / props.maxSize) * 100).toString() + "%",
         background: col,
-        transition: "height " + props.speed * 2 + "ms ease",
+        transition: "height " + props.speed + "ms ease",
     };
     return <div className="bar" style={style}></div>;
 };

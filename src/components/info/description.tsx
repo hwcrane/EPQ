@@ -28,6 +28,24 @@ export default class Description extends React.Component<descriptionProps> {
                     text: "Quick sort is one of the most effiecent sorting algorithms. It works by taking a pivot",
                 };
                 break;
+                case "Insertion Sort":
+                    info = {
+                        title: "Insertion Sort",
+                        text: "",
+                    };
+                    break;
+                case "Merge Sort":
+                    info = {
+                        title: "Merge Sort",
+                        text: "",
+                    };
+                    break;
+                case "Selection Sort":
+                    info = {
+                        title: "Selection Sort",
+                        text: "",
+                    };
+                    break;
         }
 
         return (

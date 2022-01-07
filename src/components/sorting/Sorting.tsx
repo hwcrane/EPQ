@@ -1,6 +1,6 @@
 import React from "react";
 import SpeedSelector from "../controlls/speedSelector";
-import { bubble, heap, insertion, merge, quick, selection } from "../../algorithms";
+import { bubble, insertion, merge, quick, selection } from "../../algorithms";
 import { appState, bar, stage } from "../../types";
 import Description from "../info/description";
 import ProgressBar from "./progressBar";
@@ -35,14 +35,13 @@ class Sorting extends React.Component<any, appState> {
             "Insertion Sort",
             "Merge Sort",
             "Selection Sort",
-            "Heap Sort",
         ],
         isRunning: false,
         sortingStages: [],
         sortingStage: 0,
         selectedAlgorithm: "",
         stagesGenerated: false,
-        speed: 750,
+        speed: 250,
         comparisons: 0,
         swaps: 0,
     };
@@ -69,16 +68,35 @@ class Sorting extends React.Component<any, appState> {
             numOBars: n,
             isRunning: false,
             stagesGenerated: false,
+            sortingStage: 0,
+            sortingStages: [],
+            swaps: 0,
+            comparisons: 0,
         }); // sets the state of bars to be b and numOBars to be n
     };
 
     // method to set the selected algorithm
     setAlgorithm = (algorithm: string) => {
-        this.setState({
-            selectedAlgorithm: algorithm,
-            stagesGenerated: false,
-            isRunning: false,
-        });
+        if (this.state.sortingStage > 0 ) {
+            this.setState((prevState: any) => ({
+                bars: prevState.sortingStages[0].bars,
+                selectedAlgorithm: algorithm,
+                stagesGenerated: false,
+                isRunning: false,
+                sortingStage: 0,
+                swaps: 0,
+                comparisons: 0,
+            }));
+        } 
+        else {
+            this.setState({
+                selectedAlgorithm: algorithm,
+                stagesGenerated: false,
+                isRunning: false,
+                sortingStage: 0,
+            });
+        }
+        
     };
 
     // method to set the speed of the visuliser
@@ -114,11 +132,6 @@ class Sorting extends React.Component<any, appState> {
                 break;
             case "Selection Sort":
                 sortingStages = selection(
-                    JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
-                );
-                break;
-            case "Heap Sort":
-                sortingStages = heap(
                     JSON.parse(JSON.stringify(this.state.bars)) // remove object refrences
                 );
                 break;

@@ -8,7 +8,6 @@ export default class SpeedSelector extends React.Component<speedSelectorProps> {
 
     constructor(props: any) {
         super(props);
-
         this.speed = React.createRef(); // creates a ref to be assigned to the speed slider
     }
 
