@@ -105,10 +105,10 @@ const BarContainer = () => {
     return <div className="barContainer"></div>;
 };
 
-// React element for the Controlls
-const Controlls = () => {
+// React element for the Controls
+const Controls = () => {
     return (
-        <div className="controlls">
+        <div className="controls">
             <select className="algorithmSelect"></select>
             <button className="startstop"></button>
             <button className="reset"></button>
@@ -141,7 +141,7 @@ function App() {
     return (
         <div className="App">
             <BarContainer />
-            <Controlls />
+            <Controls />
             <Metrics />
             <Description />
         </div>
@@ -285,7 +285,7 @@ interface controlProps {
     makeBars: any;
 }
 
-// react component for the control pannel
+// react component for the control panel
 export default class Controls extends React.Component<controlProps> {
     barSelect: React.RefObject<HTMLInputElement>;
     constructor(props: any) {
@@ -302,7 +302,7 @@ export default class Controls extends React.Component<controlProps> {
         return (
             <div className="controls">
                 <select className="algorithmSelect">
-                    <option value="">Select Algoritm</option>
+                    <option value="">Select Algorithm</option>
                 </select>
                 <button className="startstop">Start</button>
                 <button className="reset">Reset</button>
@@ -373,7 +373,7 @@ Next, inside the Controls component, I modified the element which selects the al
     onInput={() => this.algorthmSelected()}
     ref={this.algorithmSelect}
 >
-    <option value="">Select Algoritm</option>
+    <option value="">Select Algorithm</option>
     {this.props.algorithms.map((a) => (
         <option value={a} key={this.props.algorithms.indexOf(a)}>
             {a}
@@ -1147,7 +1147,7 @@ export default class AlgoritmSelector extends React.Component<algoritmSelectorPr
                 onInput={() => this.algorthmSelected()}
                 ref={this.ref}
             >
-                <option value="">Select Algoritm</option>
+                <option value="">Select Algorithm</option>
                 {this.props.algorithms.map((a) => (
                     <option value={a} key={this.props.algorithms.indexOf(a)}>
                         {a}
@@ -1345,7 +1345,7 @@ src
 ├── algorithms.ts
 ├── App.css
 ├── components
-│   ├── controlls
+│   ├── controls
 │   │   ├── algoritmSelector.tsx
 │   │   ├── backButton.tsx
 │   │   ├── forwardButton.tsx
@@ -1407,7 +1407,7 @@ A navigation bar, often referred to as a navbar, is used in applications to swit
 
 <img src="./assets/navbarmockup.svg">
 
-The navbar will be made up of three components: one for the navbar itself, one for the label of the website's name, and one for the links to each of the pages to the applications. For the icons in the navbar, I will be using (Font Awsome)[https://fontawesome.com/].
+The navbar will be made up of three components: one for the navbar itself, one for the label of the website's name, and one for the links to each of the pages to the applications. For the icons in the navbar, I will be using (Font Awesome)[https://fontawesome.com/].
 
 First, I created three new files: `navBar.tsx`, `navLink.tsx`, `navTitle.tsx`, and `navBar.css`. `navBar.tsx` contains the NavBar component, which contains two `navParts`, one for the title and one for the links. They are grouped this way so that they can be responsively spaced out based on the screen size. Each NavLink is passed in five properties, the icon to show, the text to show,if it links to the current page, where to link to, and how much to rotate the icon. The icon rotation is required as the logo for sorting needs to be rotated.
 
@@ -1483,7 +1483,7 @@ export default class NavLink extends React.Component<navLinkProps> {
     render() {
         var extraclass = "";
         if (this.props.current) {
-            // if link set to current, the selected class will be assigned to it, this gives it a diferent text colour and background
+            // if link set to current, the selected class will be assigned to it, this gives it a different text colour and background
             extraclass = "selected";
         }
         return (
@@ -1764,7 +1764,7 @@ export default class NavDropdownLink extends React.Component<navDropdownLinkProp
     render() {
         var extraclass = "dropdownLinkUnselected";
         if (this.props.current) {
-            // if link set to current, the selected class will be assigned to it, this gives it a diferent text colour and background
+            // if link set to current, the selected class will be assigned to it, this gives it a different text colour and background
             extraclass = "dropdownLinkSelected";
         }
         return (

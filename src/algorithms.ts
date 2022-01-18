@@ -67,35 +67,39 @@ export const bubble = (bars: bar[]): stage[] => {
     return stages;
 };
 
+
 export const quick = (bars: bar[]): stage[] => {
     var stages: stage[] = [];
     var comparisons = 0;
     var swaps = 0;
+    // Push first stage to array
     stages.push({
         bars: JSON.parse(JSON.stringify(bars)),
         swaps: swaps,
         comparisons: comparisons,
-    }); // push first stage to array
+    });
+
+    // Run quicksort algorithm
     var [nextstages, swaps, comparisons] = quickSort(bars, swaps, comparisons, 0, bars.length)
     stages = stages.concat(nextstages);
-    
 
+    // Push final stages to array
     stages.push({
         bars: JSON.parse(JSON.stringify(bars)),
         swaps: swaps,
         comparisons: comparisons,
-    }); // push first stage to array
+    });
 
     return stages;
 }
 
-const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number, last: number): [stage[], number, number] => {
+const quickSort = (bars: bar[], swaps: number, comparisons: number, first: number, last: number): [stage[], number, number] => {
     var stages: stage[] = [];
     if (last - first <= 1) {
         comparisons++;
-        try{
+        try {
             bars[first].state = "sorted";
-        } catch{bars[0].state = "sorted"}
+        } catch { bars[0].state = "sorted" }
         stages.push({
             bars: JSON.parse(JSON.stringify(bars)),
             swaps: swaps,
@@ -106,7 +110,7 @@ const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number
 
     var pivot = first;
     bars[pivot].state = "pivot";
-    
+
     var index = pivot + 1;
 
     for (let i = index; i < last; i++) {
@@ -118,7 +122,7 @@ const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number
             comparisons: comparisons,
         });
         if (bars[i].size < bars[pivot].size) {
-            swaps ++;
+            swaps++;
             bars[index].state = "selected";
             [bars[i], bars[index]] = [bars[index], bars[i]]; // swaps elements
             stages.push({
@@ -128,10 +132,10 @@ const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number
             });
             bars[i].state = "unsorted"
             bars[index].state = "unsorted"
-            index ++;
+            index++;
         }
         bars[i].state = "unsorted";
-        
+
     }
     [bars[pivot], bars[index - 1]] = [bars[index - 1], bars[pivot]];
     bars[pivot].state = "unsorted";
@@ -146,12 +150,10 @@ const quickSort = (bars: bar[], swaps: number, comparisons: number, first:number
     var [nextstages, swaps, comparisons] = quickSort(bars, swaps, comparisons, first, index - 1)
     stages = stages.concat(nextstages);
 
-
     var [nextstages, swaps, comparisons] = quickSort(bars, swaps, comparisons, index, last)
     stages = stages.concat(nextstages);
-    
-    return [stages, swaps, comparisons];
 
+    return [stages, swaps, comparisons];
 }
 
 export const insertion = (bars: bar[]): stage[] => {
@@ -173,30 +175,29 @@ export const insertion = (bars: bar[]): stage[] => {
                 bars: JSON.parse(JSON.stringify(bars)),
                 swaps: swaps,
                 comparisons: comparisons,
-            }); // push first stage to array
-            if (bars[ j - 1 ].size > bars[ j ].size ){
+            });
+            if (bars[j - 1].size > bars[j].size) {
                 swaps++;
                 [bars[j], bars[j - 1]] = [bars[j - 1], bars[j]]; // swaps elements
                 stages.push({
                     bars: JSON.parse(JSON.stringify(bars)),
                     swaps: swaps,
                     comparisons: comparisons,
-                }); // push first stage to array
+                });
                 bars[j].state = "sorted";
                 bars[j - 1].state = "sorted";
             } else {
                 bars[j].state = "sorted";
-            bars[j - 1].state = "sorted";
+                bars[j - 1].state = "sorted";
                 break;
             }
-            
         }
     }
     stages.push({
         bars: JSON.parse(JSON.stringify(bars)),
         swaps: swaps,
         comparisons: comparisons,
-    }); // push first stage to array
+    });
     return stages;
 }
 
@@ -212,11 +213,11 @@ export const merge = (bars: bar[]): stage[] => {
 
     let first = 0;
     let last = bars.length - 1;
-    var mid = Math.floor(first + ( last - first ) / 2);
+    var mid = Math.floor(first + (last - first) / 2);
 
     var [nextstages, swaps, comparisons] = mergeSort(bars, swaps, comparisons, first, mid);
     stages = stages.concat(nextstages);
-    var [nextstages, swaps, comparisons] =  mergeSort(bars, swaps, comparisons, mid + 1, last);
+    var [nextstages, swaps, comparisons] = mergeSort(bars, swaps, comparisons, mid + 1, last);
     stages = stages.concat(nextstages);
 
     var [bars, nextstages, swaps, comparisons] = mergeArray(bars, first, mid, last, true, swaps, comparisons);
@@ -228,14 +229,15 @@ export const merge = (bars: bar[]): stage[] => {
     });
     return stages;
 }
-const mergeSort = (bars: bar[], swaps: number, comparisons: number, first:number, last: number): [stage[], number, number] => {
+
+const mergeSort = (bars: bar[], swaps: number, comparisons: number, first: number, last: number): [stage[], number, number] => {
     var stages: stage[] = [];
     if (first >= last) return [stages, swaps, comparisons];
 
-    var mid = Math.floor(first + ( last - first ) / 2);
+    var mid = Math.floor(first + (last - first) / 2);
     var [nextstages, swaps, comparisons] = mergeSort(bars, swaps, comparisons, first, mid);
     stages = stages.concat(nextstages);
-    var [nextstages, swaps, comparisons] =  mergeSort(bars, swaps, comparisons, mid + 1, last);
+    var [nextstages, swaps, comparisons] = mergeSort(bars, swaps, comparisons, mid + 1, last);
     stages = stages.concat(nextstages);
 
     var [bars, nextstages, swaps, comparisons] = mergeArray(bars, first, mid, last, false, swaps, comparisons);
@@ -243,18 +245,19 @@ const mergeSort = (bars: bar[], swaps: number, comparisons: number, first:number
 
     return [stages, swaps, comparisons]
 }
+
 const mergeArray = (bars: bar[], first: number, mid: number, last: number, final: boolean, swaps: number, comparisons: number): [bar[], stage[], number, number] => {
     var stages: stage[] = [];
-    var leftLen =  mid - first + 1;
-    var rightLen  = last - mid;
+    var leftLen = mid - first + 1;
+    var rightLen = last - mid;
 
     var tempLeft: bar[] = [];
     var tempRight: bar[] = [];
 
-    for( var i = 0; i < leftLen; i++) {
-        tempLeft[i] =  bars[first + i];
+    for (var i = 0; i < leftLen; i++) {
+        tempLeft[i] = bars[first + i];
     }
-    for( var i = 0; i < rightLen; i++) {
+    for (var i = 0; i < rightLen; i++) {
         tempRight[i] = bars[mid + 1 + i];
     }
 
@@ -265,31 +268,30 @@ const mergeArray = (bars: bar[], first: number, mid: number, last: number, final
     while (indexOfLeft < tempLeft.length && indexOfRight < tempRight.length) {
         var selected1 = bars[first + indexOfLeft + indexOfRight];
         selected1.state = "selected";
-        var selected2 = bars[mid  + 1 + indexOfRight]
+        var selected2 = bars[mid + 1 + indexOfRight]
         selected2.state = "selected";
         stages.push({
             bars: JSON.parse(JSON.stringify(bars)),
             swaps: swaps,
             comparisons: comparisons,
         }); // push first stage to array
-        if (tempLeft[indexOfLeft].size <= tempRight[indexOfRight].size){
+        if (tempLeft[indexOfLeft].size <= tempRight[indexOfRight].size) {
             if (final) {
                 selected1.state = "sorted";
                 selected2.state = "unsorted";
-            } 
+            }
             indexOfLeft++;
-        } else {            
+        } else {
             swaps++
             bars.splice(mid + 1 + indexOfRight, 1);
-            bars.splice(indexOfMain, 0 ,  tempRight[indexOfRight]);
+            bars.splice(indexOfMain, 0, tempRight[indexOfRight]);
             if (final) {
                 selected1.state = "unsorted";
                 selected2.state = "sorted"
-            } 
-            //bars[indexOfMain] = tempRight[indexOfRight];
+            }
             indexOfRight++;
         }
-        
+
         indexOfMain++;
         comparisons++
 
@@ -297,10 +299,10 @@ const mergeArray = (bars: bar[], first: number, mid: number, last: number, final
             bars: JSON.parse(JSON.stringify(bars)),
             swaps: swaps,
             comparisons: comparisons,
-        }); // push first stage to array
-        if(!final) {
-            selected1.state="unsorted";
-            selected2.state="unsorted";
+        });
+        if (!final) {
+            selected1.state = "unsorted";
+            selected2.state = "unsorted";
         }
     }
 
@@ -314,17 +316,15 @@ const mergeArray = (bars: bar[], first: number, mid: number, last: number, final
             bars: JSON.parse(JSON.stringify(bars)),
             swaps: swaps,
             comparisons: comparisons,
-        }); // push first stage to array
+        });
         selected1.state = "unsorted";
         if (final) {
             selected1.state = "sorted"
-        } 
+        }
     }
 
-    
-
     while (indexOfRight < tempRight.length) {
-        var selected2 = bars[mid  + 1 + indexOfRight]
+        var selected2 = bars[mid + 1 + indexOfRight]
         selected2.state = "selected";
         comparisons++;
         swaps++;
@@ -334,11 +334,11 @@ const mergeArray = (bars: bar[], first: number, mid: number, last: number, final
             bars: JSON.parse(JSON.stringify(bars)),
             swaps: swaps,
             comparisons: comparisons,
-        }); // push first stage to array
+        });
         selected2.state = "unsorted";
         if (final) {
             selected2.state = "sorted"
-        } 
+        }
 
     }
 
@@ -377,8 +377,8 @@ export const selection = (bars: bar[]): stage[] => {
             bars[j].state = "unsorted"
             bars[min].state = "selected";
         }
-        
-        if (min != i){
+
+        if (min != i) {
             swaps++;
             [bars[i], bars[min]] = [bars[min], bars[i]];
         }
