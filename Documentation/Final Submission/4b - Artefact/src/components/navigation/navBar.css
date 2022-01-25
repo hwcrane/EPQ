@@ -1,0 +1,32 @@
+@import "../../colours.css";
+
+.navBar {
+    width: 100vw;
+    height: 4rem;
+    background: var(--nord16);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    z-index: 500;
+    position: fixed;
+    top: 0;
+}
+
+.navItem {
+    color: var(--nord4);
+    height: 70%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 0.1rem;
+    margin-right: 0.1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 20rem;
+}
+.navTitle {
+    margin-right: auto;
+    font-size: 1.5rem;
+}
